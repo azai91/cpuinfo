@@ -1654,7 +1654,7 @@ uint32_t CPUINFO_ABI cpuinfo_get_cores_count(void);
 //uint32_t CPUINFO_ABI cpuinfo_get_l3_caches_count(void);
 //uint32_t CPUINFO_ABI cpuinfo_get_l4_caches_count(void);
 
-const struct cpuinfo_processor* CPUINFO_ABI cpuinfo_get_current_processor(void);
+//const struct cpuinfo_processor* CPUINFO_ABI cpuinfo_get_current_processor(void);
 const struct cpuinfo_core* CPUINFO_ABI cpuinfo_get_current_core(void);
 
 #ifdef __cplusplus
