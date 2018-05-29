@@ -204,8 +204,8 @@ void cpuinfo_x86_linux_init(void) {
 //		}
 //	}
 
-//	qsort(x86_linux_processors, x86_linux_processors_count, sizeof(struct cpuinfo_x86_linux_processor),
-//		cmp_x86_linux_processor);
+	qsort(x86_linux_processors, x86_linux_processors_count, sizeof(struct cpuinfo_x86_linux_processor),
+		cmp_x86_linux_processor);
 
 //	processors = calloc(processors_count, sizeof(struct cpuinfo_processor));
 //	if (processors == NULL) {
