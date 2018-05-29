@@ -142,7 +142,7 @@ static void cpuinfo_x86_count_objects(
 }
 
 void cpuinfo_x86_linux_init(void) {
-//	struct cpuinfo_x86_linux_processor* x86_linux_processors = NULL;
+	struct cpuinfo_x86_linux_processor* x86_linux_processors = NULL;
 //	struct cpuinfo_processor* processors = NULL;
 	struct cpuinfo_core* cores = NULL;
 //	struct cpuinfo_cluster* clusters = NULL;
@@ -190,11 +190,11 @@ void cpuinfo_x86_linux_init(void) {
 		return;
 	}
 
-//	struct cpuinfo_x86_processor x86_processor;
-//	memset(&x86_processor, 0, sizeof(x86_processor));
-//	cpuinfo_x86_init_processor(&x86_processor);
-//	char brand_string[48];
-//	cpuinfo_x86_normalize_brand_string(x86_processor.brand_string, brand_string);
+	struct cpuinfo_x86_processor x86_processor;
+	memset(&x86_processor, 0, sizeof(x86_processor));
+	cpuinfo_x86_init_processor(&x86_processor);
+	char brand_string[48];
+	cpuinfo_x86_normalize_brand_string(x86_processor.brand_string, brand_string);
 
 //	uint32_t processors_count = 0;
 //	for (uint32_t i = 0; i < x86_linux_processors_count; i++) {
