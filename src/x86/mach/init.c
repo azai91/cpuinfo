@@ -18,8 +18,8 @@ static inline uint32_t bit_mask(uint32_t bits) {
 }
 
 void cpuinfo_x86_mach_init(void) {
-	struct cpuinfo_processor* processors = NULL;
-//	struct cpuinfo_core* cores = NULL;
+//	struct cpuinfo_processor* processors = NULL;
+	struct cpuinfo_core* cores = NULL;
 //	struct cpuinfo_cluster* clusters = NULL;
 //	struct cpuinfo_package* packages = NULL;
 //	struct cpuinfo_cache* l1i = NULL;
@@ -29,18 +29,18 @@ void cpuinfo_x86_mach_init(void) {
 //	struct cpuinfo_cache* l4 = NULL;
 
 	struct cpuinfo_mach_topology mach_topology = cpuinfo_mach_detect_topology();
-	processors = calloc(mach_topology.threads, sizeof(struct cpuinfo_processor));
-	if (processors == NULL) {
-		cpuinfo_log_error("failed to allocate %zu bytes for descriptions of %"PRIu32" logical processors",
-			mach_topology.threads * sizeof(struct cpuinfo_processor), mach_topology.threads);
-		goto cleanup;
-	}
-//	cores = calloc(mach_topology.cores, sizeof(struct cpuinfo_core));
-//	if (cores == NULL) {
-//		cpuinfo_log_error("failed to allocate %zu bytes for descriptions of %"PRIu32" cores",
-//			mach_topology.cores * sizeof(struct cpuinfo_core), mach_topology.cores);
+//	processors = calloc(mach_topology.threads, sizeof(struct cpuinfo_processor));
+//	if (processors == NULL) {
+//		cpuinfo_log_error("failed to allocate %zu bytes for descriptions of %"PRIu32" logical processors",
+//			mach_topology.threads * sizeof(struct cpuinfo_processor), mach_topology.threads);
 //		goto cleanup;
 //	}
+	cores = calloc(mach_topology.cores, sizeof(struct cpuinfo_core));
+	if (cores == NULL) {
+		cpuinfo_log_error("failed to allocate %zu bytes for descriptions of %"PRIu32" cores",
+			mach_topology.cores * sizeof(struct cpuinfo_core), mach_topology.cores);
+		goto cleanup;
+	}
 //	/* On x86 cluster of cores is a physical package */
 //	clusters = calloc(mach_topology.packages, sizeof(struct cpuinfo_cluster));
 //	if (clusters == NULL) {
@@ -322,8 +322,8 @@ void cpuinfo_x86_mach_init(void) {
 //	cpuinfo_cache_count[cpuinfo_cache_level_3]  = l3_count;
 //	cpuinfo_cache_count[cpuinfo_cache_level_4]  = l4_count;
 
-	cpuinfo_processors_count = mach_topology.threads;
-//	cpuinfo_cores_count = mach_topology.cores;
+//	cpuinfo_processors_count = mach_topology.threads;
+	cpuinfo_cores_count = mach_topology.cores;
 //	cpuinfo_clusters_count = mach_topology.packages;
 //	cpuinfo_packages_count = mach_topology.packages;
 
@@ -331,15 +331,15 @@ void cpuinfo_x86_mach_init(void) {
 
 	cpuinfo_is_initialized = true;
 
-	processors = NULL;
-//	cores = NULL;
+//	processors = NULL;
+	cores = NULL;
 //	clusters = NULL;
 //	packages = NULL;
 //	l1i = l1d = l2 = l3 = l4 = NULL;
 
 cleanup:
-	free(processors);
-//	free(cores);
+//	free(processors);
+	free(cores);
 //	free(clusters);
 //	free(packages);
 //	free(l1i);

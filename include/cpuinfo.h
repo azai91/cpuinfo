@@ -1644,8 +1644,8 @@ static inline bool cpuinfo_has_arm_crc32(void) {
 //const struct cpuinfo_cache* CPUINFO_ABI cpuinfo_get_l3_cache(uint32_t index);
 //const struct cpuinfo_cache* CPUINFO_ABI cpuinfo_get_l4_cache(uint32_t index);
 
-uint32_t CPUINFO_ABI cpuinfo_get_processors_count(void);
-//uint32_t CPUINFO_ABI cpuinfo_get_cores_count(void);
+//uint32_t CPUINFO_ABI cpuinfo_get_processors_count(void);
+uint32_t CPUINFO_ABI cpuinfo_get_cores_count(void);
 //uint32_t CPUINFO_ABI cpuinfo_get_clusters_count(void);
 //uint32_t CPUINFO_ABI cpuinfo_get_packages_count(void);
 //uint32_t CPUINFO_ABI cpuinfo_get_l1i_caches_count(void);

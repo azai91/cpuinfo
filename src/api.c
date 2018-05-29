@@ -13,8 +13,8 @@ bool cpuinfo_is_initialized = false;
 //struct cpuinfo_package* cpuinfo_packages = NULL;
 //struct cpuinfo_cache* cpuinfo_cache[cpuinfo_cache_level_max] = { NULL };
 
-uint32_t cpuinfo_processors_count = 0;
-//uint32_t cpuinfo_cores_count = 0;
+//uint32_t cpuinfo_processors_count = 0;
+uint32_t cpuinfo_cores_count = 0;
 //uint32_t cpuinfo_clusters_count = 0;
 //uint32_t cpuinfo_packages_count = 0;
 //uint32_t cpuinfo_cache_count[cpuinfo_cache_level_max] = { 0 };
@@ -92,19 +92,19 @@ uint32_t cpuinfo_processors_count = 0;
 //	}
 //}
 
-uint32_t cpuinfo_get_processors_count(void) {
-	if (!cpuinfo_is_initialized) {
-		cpuinfo_log_fatal("cpuinfo_get_%s called before cpuinfo is initialized", "processors_count");
-	}
-	return cpuinfo_processors_count;
-}
-
-//uint32_t cpuinfo_get_cores_count(void) {
+//uint32_t cpuinfo_get_processors_count(void) {
 //	if (!cpuinfo_is_initialized) {
-//		cpuinfo_log_fatal("cpuinfo_get_%s called before cpuinfo is initialized", "cores_count");
+//		cpuinfo_log_fatal("cpuinfo_get_%s called before cpuinfo is initialized", "processors_count");
 //	}
-//	return cpuinfo_cores_count;
+//	return cpuinfo_processors_count;
 //}
+
+uint32_t cpuinfo_get_cores_count(void) {
+	if (!cpuinfo_is_initialized) {
+		cpuinfo_log_fatal("cpuinfo_get_%s called before cpuinfo is initialized", "cores_count");
+	}
+	return cpuinfo_cores_count;
+}
 //
 //uint32_t cpuinfo_get_clusters_count(void) {
 //	if (!cpuinfo_is_initialized) {
