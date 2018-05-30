@@ -128,11 +128,11 @@ IF(CPUINFO_SUPPORTED_PLATFORM)
     LIST(APPEND CPUINFO_SRCS
       src/x86/init.c
       src/x86/info.c
-      src/x86/vendor.c
-      src/x86/uarch.c
-      src/x86/name.c
-      src/x86/topology.c
-      src/x86/isa.c)
+#      src/x86/vendor.c
+#      src/x86/uarch.c
+#      src/x86/name.c
+      src/x86/topology.c)
+#      src/x86/isa.c)
 #      src/x86/cache/init.c
 #      src/x86/cache/descriptor.c
 #      src/x86/cache/deterministic.c)
