@@ -13,6 +13,7 @@
 	#include <sched.h>
 #endif
 
+#include <x86/linux/api.h>
 #include <log.h>
 
 
