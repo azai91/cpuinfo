@@ -127,15 +127,7 @@ IF(CPUINFO_SUPPORTED_PLATFORM)
   IF(CMAKE_SYSTEM_PROCESSOR MATCHES "^(i686|x86_64|AMD64)$")
     LIST(APPEND CPUINFO_SRCS
       src/x86/init.c
-      src/x86/info.c
-#      src/x86/vendor.c
-#      src/x86/uarch.c
-#      src/x86/name.c
       src/x86/topology.c)
-#      src/x86/isa.c)
-#      src/x86/cache/init.c
-#      src/x86/cache/descriptor.c
-#      src/x86/cache/deterministic.c)
     IF(CMAKE_SYSTEM_NAME STREQUAL "Linux" OR CMAKE_SYSTEM_NAME STREQUAL "Android")
       LIST(APPEND CPUINFO_SRCS
         src/x86/linux/init.c
