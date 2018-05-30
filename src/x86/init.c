@@ -8,8 +8,7 @@
 #include <log.h>
 
 
-struct cpuinfo_x86_isa cpuinfo_isa = { 0 };
-uint32_t cpuinfo_x86_clflush_size = 0;
+//uint32_t cpuinfo_x86_clflush_size = 0;
 
 void cpuinfo_x86_init_processor(struct cpuinfo_x86_processor* processor) {
 	const struct cpuid_regs leaf0 = cpuid(0);
@@ -32,7 +31,7 @@ void cpuinfo_x86_init_processor(struct cpuinfo_x86_processor* processor) {
 //		const enum cpuinfo_uarch uarch = processor->uarch =
 //			cpuinfo_x86_decode_uarch(vendor, &model_info);
 
-		cpuinfo_x86_clflush_size = ((leaf1.ebx >> 8) & UINT32_C(0x000000FF)) * 8;
+//		cpuinfo_x86_clflush_size = ((leaf1.ebx >> 8) & UINT32_C(0x000000FF)) * 8;
 
 		cpuinfo_x86_detect_topology(max_base_index, max_extended_index, leaf1, &processor->topology);
 

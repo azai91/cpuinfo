@@ -16,7 +16,7 @@ OPTION(CPUINFO_BUILD_UNIT_TESTS "Build cpuinfo unit tests" ON)
 OPTION(CPUINFO_BUILD_MOCK_TESTS "Build cpuinfo mock tests" ON)
 OPTION(CPUINFO_BUILD_BENCHMARKS "Build cpuinfo micro-benchmarks" ON)
 
-set(CMAKE_SYSTEM_NAME Linux)
+#set(CMAKE_SYSTEM_NAME Linux)
 
 # ---[ CMake options
 IF(CPUINFO_BUILD_UNIT_TESTS OR CPUINFO_BUILD_MOCK_TESTS)
