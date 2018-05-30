@@ -16,7 +16,7 @@ OPTION(CPUINFO_BUILD_UNIT_TESTS "Build cpuinfo unit tests" ON)
 OPTION(CPUINFO_BUILD_MOCK_TESTS "Build cpuinfo mock tests" ON)
 OPTION(CPUINFO_BUILD_BENCHMARKS "Build cpuinfo micro-benchmarks" ON)
 
-#set(CMAKE_SYSTEM_NAME Linux)
+set(CMAKE_SYSTEM_NAME Linux)
 
 # ---[ CMake options
 IF(CPUINFO_BUILD_UNIT_TESTS OR CPUINFO_BUILD_MOCK_TESTS)
@@ -141,13 +141,13 @@ IF(CPUINFO_SUPPORTED_PLATFORM)
 
   IF(CMAKE_SYSTEM_NAME STREQUAL "Linux" OR CMAKE_SYSTEM_NAME STREQUAL "Android")
     LIST(APPEND CPUINFO_SRCS
-            src/linux/smallfile.c
-            src/linux/multiline.c
-            src/linux/cpulist.c
-            src/linux/processors.c)
+            src/x86/linux/smallfile.c
+            src/x86/linux/multiline.c
+            src/x86/linux/cpulist.c
+            src/x86/linux/processors.c)
   ENDIF()
   IF(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
-    LIST(APPEND CPUINFO_SRCS src/mach/topology.c)
+    LIST(APPEND CPUINFO_SRCS src/x86/mach/topology.c)
   ENDIF()
 
   IF(CMAKE_SYSTEM_NAME STREQUAL "Linux" OR CMAKE_SYSTEM_NAME STREQUAL "Android")
@@ -235,7 +235,7 @@ IF(CPUINFO_SUPPORTED_PLATFORM AND CPUINFO_BUILD_MOCK_TESTS)
     LIST(APPEND CPUINFO_MOCK_SRCS src/x86/mockcpuid.c)
   ENDIF()
   IF(CMAKE_SYSTEM_NAME STREQUAL "Linux" OR CMAKE_SYSTEM_NAME STREQUAL "Android")
-    LIST(APPEND CPUINFO_MOCK_SRCS src/linux/mockfile.c)
+    LIST(APPEND CPUINFO_MOCK_SRCS src/x86/linux/mockfile.c)
   ENDIF()
 
   ADD_LIBRARY(cpuinfo_mock STATIC ${CPUINFO_MOCK_SRCS})
