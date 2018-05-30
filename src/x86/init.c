@@ -28,7 +28,7 @@ void cpuinfo_x86_init_processor(struct cpuinfo_x86_processor* processor) {
 		const struct cpuid_regs leaf1 = cpuid(1);
 		processor->cpuid = leaf1.eax;
 
-		const struct cpuinfo_x86_model_info model_info = cpuinfo_x86_decode_model_info(leaf1.eax);
+//		const struct cpuinfo_x86_model_info model_info = cpuinfo_x86_decode_model_info(leaf1.eax);
 //		const enum cpuinfo_uarch uarch = processor->uarch =
 //			cpuinfo_x86_decode_uarch(vendor, &model_info);
 
