@@ -13,7 +13,6 @@
 #if CPUINFO_MOCK
 	#include <cpuinfo-mock.h>
 #endif
-#include <linux/api.h>
 #include <log.h>
 
 

@@ -16,8 +16,6 @@
 #endif
 
 #include <cpuinfo-mock.h>
-//#include <arm/linux/api.h>
-//#include <arm/midr.h>
 #include <log.h>
 
 

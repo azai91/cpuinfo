@@ -4,7 +4,6 @@
 #include <stddef.h>
 #include <string.h>
 
-#include <linux/api.h>
 #include <x86/linux/api.h>
 #include <log.h>
 
