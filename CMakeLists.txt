@@ -151,7 +151,6 @@ IF(CPUINFO_SUPPORTED_PLATFORM)
     LIST(APPEND CPUINFO_SRCS
             src/linux/smallfile.c
             src/linux/multiline.c
-            src/linux/current.c
             src/linux/cpulist.c
             src/linux/processors.c)
   ENDIF()
