@@ -6,7 +6,6 @@
 #include <cpuinfo.h>
 #include <x86/api.h>
 #include <x86/linux/api.h>
-#include <gpu/api.h>
 #include <linux/api.h>
 #include <api.h>
 #include <log.h>
