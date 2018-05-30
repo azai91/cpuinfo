@@ -188,7 +188,7 @@ void cpuinfo_x86_linux_init(void) {
 	qsort(x86_linux_processors, x86_linux_processors_count, sizeof(struct cpuinfo_x86_linux_processor),
 		cmp_x86_linux_processor);
 
-//	uint32_t llc_apic_bits = 0;
+	uint32_t llc_apic_bits = 0;
 //	if (x86_processor.cache.l4.size != 0) {
 //		llc_apic_bits = x86_processor.cache.l4.apic_bits;
 //	} else if (x86_processor.cache.l3.size != 0) {
