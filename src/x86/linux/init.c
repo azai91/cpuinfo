@@ -142,17 +142,7 @@ static void cpuinfo_x86_count_objects(
 
 void cpuinfo_x86_linux_init(void) {
 	struct cpuinfo_x86_linux_processor* x86_linux_processors = NULL;
-//	struct cpuinfo_processor* processors = NULL;
 	struct cpuinfo_core* cores = NULL;
-//	struct cpuinfo_cluster* clusters = NULL;
-//	struct cpuinfo_package* packages = NULL;
-//	const struct cpuinfo_processor** linux_cpu_to_processor_map = NULL;
-//	const struct cpuinfo_core** linux_cpu_to_core_map = NULL;
-//	struct cpuinfo_cache* l1i = NULL;
-//	struct cpuinfo_cache* l1d = NULL;
-//	struct cpuinfo_cache* l2 = NULL;
-//	struct cpuinfo_cache* l3 = NULL;
-//	struct cpuinfo_cache* l4 = NULL;
 
 	const uint32_t max_processors_count = cpuinfo_linux_get_max_processors_count();
 	cpuinfo_log_debug("system maximum processors count: %"PRIu32, max_processors_count);
