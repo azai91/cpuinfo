@@ -4,7 +4,7 @@
 
 #include <cpuinfo.h>
 #include <x86/api.h>
-#include <mach/api.h>
+#include <x86/mach/api.h>
 #include <api.h>
 #include <log.h>
 

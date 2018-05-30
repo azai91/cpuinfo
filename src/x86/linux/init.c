@@ -189,15 +189,6 @@ void cpuinfo_x86_linux_init(void) {
 		cmp_x86_linux_processor);
 
 	uint32_t llc_apic_bits = 0;
-//	if (x86_processor.cache.l4.size != 0) {
-//		llc_apic_bits = x86_processor.cache.l4.apic_bits;
-//	} else if (x86_processor.cache.l3.size != 0) {
-//		llc_apic_bits = x86_processor.cache.l3.apic_bits;
-//	} else if (x86_processor.cache.l2.size != 0) {
-//		llc_apic_bits = x86_processor.cache.l2.apic_bits;
-//	} else if (x86_processor.cache.l1d.size != 0) {
-//		llc_apic_bits = x86_processor.cache.l1d.apic_bits;
-//	}
 	uint32_t packages_count = 0, clusters_count = 0, cores_count = 0;
 	uint32_t l1i_count = 0, l1d_count = 0, l2_count = 0, l3_count = 0, l4_count = 0;
 	cpuinfo_x86_count_objects(x86_linux_processors_count, x86_linux_processors, &x86_processor, llc_apic_bits,

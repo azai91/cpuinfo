@@ -6,7 +6,7 @@
 #include <sys/sysctl.h>
 
 #include <log.h>
-#include <mach/api.h>
+#include <x86/mach/api.h>
 
 
 struct cpuinfo_mach_topology cpuinfo_mach_detect_topology(void) {
