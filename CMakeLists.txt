@@ -17,7 +17,7 @@ OPTION(CPUINFO_BUILD_MOCK_TESTS "Build cpuinfo mock tests" ON)
 OPTION(CPUINFO_BUILD_BENCHMARKS "Build cpuinfo micro-benchmarks" ON)
 
 
-#set(CMAKE_SYSTEM_NAME Linux)
+set(CMAKE_SYSTEM_NAME Windows)
 
 FILE(GLOB SOURCE "src/*.h" "src/*.cc" "include/*.h")
 
@@ -31,10 +31,13 @@ ELSEIF(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
     message(WARNING "${SOURCE}")
     FILE(GLOB DARWIN_SOURCE "src/mach/*.h" "src/mach/*.cc")
     LIST(APPEND SOURCE ${DARWIN_SOURCE})
+ELSEIF(CMAKE_SYSTEM_NAME STREQUAL "Windows")
+    message(WARNING "${SOURCE}")
+    FILE(GLOB DARWIN_SOURCE "src/windows/*.h" "src/windows/*.cc")
+    LIST(APPEND SOURCE ${DARWIN_SOURCE})
 ENDIF()
 message(WARNING "${SOURCE}")
 
 add_executable(main main.cpp ${SOURCE})
 target_include_directories(main PUBLIC include)
 target_link_libraries(main PUBLIC ${CMAKE_THREAD_LIBS_INIT})
-#target_link_libraries(main cpuinfo)
