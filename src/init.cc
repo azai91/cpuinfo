@@ -50,13 +50,9 @@ bool CPUINFO_ABI cpuinfo_initialize(void) {
 void CPUINFO_ABI cpuinfo_deinitialize(void) {
 }
 
-
-
 void cpuinfo_x86_init_processor(struct cpuinfo_x86_processor* processor) {
 	const struct cpuid_regs leaf0 = cpuid(0);
 	const uint32_t max_base_index = leaf0.eax;
-//	const enum cpuinfo_vendor vendor = processor->vendor =
-//																				 cpuinfo_x86_decode_vendor(leaf0.ebx, leaf0.ecx, leaf0.edx);
 
 	const struct cpuid_regs leaf0x80000000 = cpuid(UINT32_C(0x80000000));
 	const uint32_t max_extended_index =
@@ -68,32 +64,6 @@ void cpuinfo_x86_init_processor(struct cpuinfo_x86_processor* processor) {
 	if (max_base_index >= 1) {
 		const struct cpuid_regs leaf1 = cpuid(1);
 		processor->cpuid = leaf1.eax;
-
-//		const struct cpuinfo_x86_model_info model_info = cpuinfo_x86_decode_model_info(leaf1.eax);
-
-		/*
-		 * Topology extensions support:
-		 * - AMD: ecx[bit 22] in extended info (reserved bit on Intel CPUs).
-		 */
-//		const bool amd_topology_extensions = !!(leaf0x80000001.ecx & UINT32_C(0x00400000));
-
-//		cpuinfo_x86_detect_cache(
-//				max_base_index, max_extended_index, amd_topology_extensions, vendor, &model_info,
-//				&processor->cache,
-//				&processor->tlb.itlb_4KB,
-//				&processor->tlb.itlb_2MB,
-//				&processor->tlb.itlb_4MB,
-//				&processor->tlb.dtlb0_4KB,
-//				&processor->tlb.dtlb0_2MB,
-//				&processor->tlb.dtlb0_4MB,
-//				&processor->tlb.dtlb_4KB,
-//				&processor->tlb.dtlb_2MB,
-//				&processor->tlb.dtlb_4MB,
-//				&processor->tlb.dtlb_1GB,
-//				&processor->tlb.stlb2_4KB,
-//				&processor->tlb.stlb2_2MB,
-//				&processor->tlb.stlb2_1GB,
-//				&processor->topology.core_bits_length);
 
 		cpuinfo_x86_detect_topology(max_base_index, max_extended_index, leaf1, &processor->topology);
 

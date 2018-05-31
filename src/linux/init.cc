@@ -181,7 +181,6 @@ void cpuinfo_x86_linux_init(void) {
 	memset(&x86_processor, 0, sizeof(x86_processor));
 	cpuinfo_x86_init_processor(&x86_processor);
 	char brand_string[48];
-//	cpuinfo_x86_normalize_brand_string(x86_processor.brand_string, brand_string);
 
 	qsort(x86_linux_processors, x86_linux_processors_count, sizeof(struct cpuinfo_x86_linux_processor),
 		cmp_x86_linux_processor);

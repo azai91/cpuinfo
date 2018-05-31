@@ -104,54 +104,6 @@ void cpuinfo_x86_detect_topology(
 	struct cpuid_regs leaf1,
 	struct cpuinfo_x86_topology* topology);
 
-//void cpuinfo_x86_detect_cache(
-//	uint32_t max_base_index, uint32_t max_extended_index,
-//	bool amd_topology_extensions,
-//	enum cpuinfo_vendor vendor,
-//	const struct cpuinfo_x86_model_info* model_info,
-//	struct cpuinfo_x86_caches* cache,
-//	struct cpuinfo_tlb* itlb_4KB,
-//	struct cpuinfo_tlb* itlb_2MB,
-//	struct cpuinfo_tlb* itlb_4MB,
-//	struct cpuinfo_tlb* dtlb0_4KB,
-//	struct cpuinfo_tlb* dtlb0_2MB,
-//	struct cpuinfo_tlb* dtlb0_4MB,
-//	struct cpuinfo_tlb* dtlb_4KB,
-//	struct cpuinfo_tlb* dtlb_2MB,
-//	struct cpuinfo_tlb* dtlb_4MB,
-//	struct cpuinfo_tlb* dtlb_1GB,
-//	struct cpuinfo_tlb* stlb2_4KB,
-//	struct cpuinfo_tlb* stlb2_2MB,
-//	struct cpuinfo_tlb* stlb2_1GB,
-//	uint32_t* log2_package_cores_max);
-
-void cpuinfo_x86_decode_cache_descriptor(
-	uint8_t descriptor, enum cpuinfo_vendor vendor,
-	const struct cpuinfo_x86_model_info* model_info,
-	struct cpuinfo_x86_caches* cache,
-	struct cpuinfo_tlb* itlb_4KB,
-	struct cpuinfo_tlb* itlb_2MB,
-	struct cpuinfo_tlb* itlb_4MB,
-	struct cpuinfo_tlb* dtlb0_4KB,
-	struct cpuinfo_tlb* dtlb0_2MB,
-	struct cpuinfo_tlb* dtlb0_4MB,
-	struct cpuinfo_tlb* dtlb_4KB,
-	struct cpuinfo_tlb* dtlb_2MB,
-	struct cpuinfo_tlb* dtlb_4MB,
-	struct cpuinfo_tlb* dtlb_1GB,
-	struct cpuinfo_tlb* stlb2_4KB,
-	struct cpuinfo_tlb* stlb2_2MB,
-	struct cpuinfo_tlb* stlb2_1GB,
-	uint32_t* prefetch_size);
-
-bool cpuinfo_x86_decode_deterministic_cache_parameters(
-	struct cpuid_regs regs,
-	struct cpuinfo_x86_caches* cache,
-	uint32_t* package_cores_max);
-
-bool cpuinfo_x86_decode_cache_properties(
-	struct cpuid_regs regs,
-	struct cpuinfo_x86_caches* cache);
 
 uint32_t cpuinfo_x86_normalize_brand_string(
 	const char raw_name[48],
@@ -174,14 +126,8 @@ enum cpuinfo_cache_level {
 extern bool cpuinfo_is_initialized;
 extern struct cpuinfo_processor* cpuinfo_processors;
 extern struct cpuinfo_core* cpuinfo_cores;
-extern struct cpuinfo_cluster* cpuinfo_clusters;
-extern struct cpuinfo_package* cpuinfo_packages;
 extern struct cpuinfo_cache* cpuinfo_cache[cpuinfo_cache_level_max];
-extern uint32_t cpuinfo_processors_count;
 extern uint32_t cpuinfo_cores_count;
-extern uint32_t cpuinfo_clusters_count;
-extern uint32_t cpuinfo_packages_count;
-extern uint32_t cpuinfo_cache_count[cpuinfo_cache_level_max];
 
 void cpuinfo_x86_mach_init(void);
 void cpuinfo_x86_linux_init(void);
