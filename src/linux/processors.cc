@@ -41,7 +41,7 @@
 #define PRESENT_CPULIST_FILENAME "/sys/devices/system/cpu/present"
 
 
-inline static const char* parse_number(const char* start, const char* end, uint32_t number_ptr[static 1]) {
+inline static const char* parse_number(const char* start, const char* end, uint32_t number_ptr[1]) {
 	uint32_t number = 0;
 	const char* parsed = start;
 	for (; parsed != end; parsed++) {
