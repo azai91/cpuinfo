@@ -16,7 +16,6 @@ OPTION(CPUINFO_BUILD_UNIT_TESTS "Build cpuinfo unit tests" ON)
 OPTION(CPUINFO_BUILD_MOCK_TESTS "Build cpuinfo mock tests" ON)
 OPTION(CPUINFO_BUILD_BENCHMARKS "Build cpuinfo micro-benchmarks" ON)
 
-#set(CMAKE_SYSTEM_NAME Linux)
 
 ## ---[ CMake options
 #IF(CPUINFO_BUILD_UNIT_TESTS OR CPUINFO_BUILD_MOCK_TESTS)
@@ -158,9 +157,13 @@ OPTION(CPUINFO_BUILD_BENCHMARKS "Build cpuinfo micro-benchmarks" ON)
 #  TARGET_COMPILE_DEFINITIONS(cpuinfo INTERFACE CPUINFO_SUPPORTED_PLATFORM=0)
 #ENDIF()
 
+set(CMAKE_SYSTEM_NAME Linux)
+
 FILE(GLOB SOURCE "src/*.h" "src/*.cc" "include/*.h")
 
 IF(CMAKE_SYSTEM_NAME STREQUAL "Linux" OR CMAKE_SYSTEM_NAME STREQUAL "Android")
+    SET(CMAKE_THREAD_PREFER_PTHREAD TRUE)
+    SET(THREADS_PREFER_PTHREAD_FLAG TRUE)
     FILE(GLOB LINUX_SOURCE "src/linux/*.hh" "src/linux/*.cc")
     LIST(APPEND SOURCE ${LINUX_SOURCE})
 ELSEIF(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
@@ -172,4 +175,5 @@ message(WARNING "${SOURCE}")
 
 add_executable(main main.cpp ${SOURCE})
 target_include_directories(main PUBLIC include)
+target_link_libraries(main PUBLIC ${CMAKE_THREAD_LIBS_INIT})
 #target_link_libraries(main cpuinfo)
