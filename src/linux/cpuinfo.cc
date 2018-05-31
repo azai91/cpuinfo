@@ -49,7 +49,7 @@ static uint32_t parse_processor_number(
 static void parse_apic_id(
 	const char* apic_start,
 	const char* apic_end,
-	struct cpuinfo_x86_linux_processor processor[restrict static 1])
+	struct cpuinfo_x86_linux_processor processor[static 1])
 {
 	uint32_t apic_id = 0;
 	for (const char* digit_ptr = apic_start; digit_ptr != apic_end; digit_ptr++) {
@@ -82,7 +82,7 @@ struct proc_cpuinfo_parser_state {
 static bool parse_line(
 	const char* line_start,
 	const char* line_end,
-	struct proc_cpuinfo_parser_state state[restrict static 1],
+	struct proc_cpuinfo_parser_state state[static 1],
 	uint64_t line_number)
 {
 	/* Empty line. Skip. */
@@ -192,7 +192,7 @@ static bool parse_line(
 
 bool cpuinfo_x86_linux_parse_proc_cpuinfo(
 	uint32_t max_processors_count,
-	struct cpuinfo_x86_linux_processor processors[restrict static max_processors_count])
+	struct cpuinfo_x86_linux_processor processors[static max_processors_count])
 {
 	struct proc_cpuinfo_parser_state state = {
 		.processor_index = 0,

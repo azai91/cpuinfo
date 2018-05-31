@@ -44,17 +44,17 @@ static int cmp_x86_linux_processor(const void* ptr_a, const void* ptr_b) {
 
 static void cpuinfo_x86_count_objects(
 	uint32_t linux_processors_count,
-	const struct cpuinfo_x86_linux_processor linux_processors[restrict static linux_processors_count],
-	const struct cpuinfo_x86_processor processor[restrict static 1],
+	const struct cpuinfo_x86_linux_processor linux_processors[static linux_processors_count],
+	const struct cpuinfo_x86_processor processor[static 1],
 	uint32_t llc_apic_bits,
-	uint32_t cores_count_ptr[restrict static 1],
-	uint32_t clusters_count_ptr[restrict static 1],
-	uint32_t packages_count_ptr[restrict static 1],
-	uint32_t l1i_count_ptr[restrict static 1],
-	uint32_t l1d_count_ptr[restrict static 1],
-	uint32_t l2_count_ptr[restrict static 1],
-	uint32_t l3_count_ptr[restrict static 1],
-	uint32_t l4_count_ptr[restrict static 1])
+	uint32_t cores_count_ptr[static 1],
+	uint32_t clusters_count_ptr[static 1],
+	uint32_t packages_count_ptr[static 1],
+	uint32_t l1i_count_ptr[static 1],
+	uint32_t l1d_count_ptr[static 1],
+	uint32_t l2_count_ptr[static 1],
+	uint32_t l3_count_ptr[static 1],
+	uint32_t l4_count_ptr[static 1])
 {
 	const uint32_t core_apic_mask =
 		~(bit_mask(processor->topology.thread_bits_length) << processor->topology.thread_bits_offset);

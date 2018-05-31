@@ -41,7 +41,7 @@
 #define PRESENT_CPULIST_FILENAME "/sys/devices/system/cpu/present"
 
 
-inline static const char* parse_number(const char* start, const char* end, uint32_t number_ptr[restrict static 1]) {
+inline static const char* parse_number(const char* start, const char* end, uint32_t number_ptr[static 1]) {
 	uint32_t number = 0;
 	const char* parsed = start;
 	for (; parsed != end; parsed++) {
@@ -68,19 +68,7 @@ inline static bool is_whitespace(char c) {
 	}
 }
 
-#if defined(__ANDROID__) && !defined(CPU_SETSIZE)
-	/*
-	 * Android NDK headers before platform 21 do not define CPU_SETSIZE,
-	 * so we hard-code its value, as defined in platform 21 headers
-	 */
-	#if defined(__LP64__)
-		static const uint32_t default_max_processors_count = 1024;
-	#else
-		static const uint32_t default_max_processors_count = 32;
-	#endif
-#else
-	static const uint32_t default_max_processors_count = CPU_SETSIZE;
-#endif
+static const uint32_t default_max_processors_count = CPU_SETSIZE;
 
 static bool uint32_parser(const char* text_start, const char* text_end, void* context) {
 	if (text_start == text_end) {
