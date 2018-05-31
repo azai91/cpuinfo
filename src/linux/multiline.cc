@@ -10,9 +10,6 @@
 #include <unistd.h>
 #include <fcntl.h>
 
-#if CPUINFO_MOCK
-	#include <cpuinfo-mock.h>
-#endif
 #include "./api.h"
 #include "../log.h"
 
@@ -23,28 +20,26 @@ bool cpuinfo_linux_parse_multiline_file(const char* filename, size_t buffer_size
 	bool status = false;
 	char* buffer = (char*) alloca(buffer_size);
 
-#if CPUINFO_MOCK
-	file = cpuinfo_mock_open(filename, O_RDONLY);
-#else
-	file = open(filename, O_RDONLY);
-#endif
-	if (file == -1) {
-		cpuinfo_log_info("failed to open %s: %s", filename, strerror(errno));
-		goto cleanup;
-	}
-
 	/* Only used for error reporting */
 	size_t position = 0;
 	uint64_t line_number = 1;
 	const char* buffer_end = &buffer[buffer_size];
 	char* data_start = buffer;
 	ssize_t bytes_read;
+
+	file = open(filename, O_RDONLY);
+	if (file == -1) {
+		cpuinfo_log_info("failed to open %s: %s", filename, strerror(errno));
+		goto cleanup;
+	}
+
+
 	do {
-#if CPUINFO_MOCK
-		bytes_read = cpuinfo_mock_read(file, data_start, (size_t) (buffer_end - data_start));
-#else
 		bytes_read = read(file, data_start, (size_t) (buffer_end - data_start));
-#endif
+
+		const char* data_end = data_start + (size_t) bytes_read;
+		const char* line_start = buffer;
+
 		if (bytes_read < 0) {
 			cpuinfo_log_info("failed to read file %s at position %zu: %s",
 				filename, position, strerror(errno));
@@ -52,8 +47,6 @@ bool cpuinfo_linux_parse_multiline_file(const char* filename, size_t buffer_size
 		}
 
 		position += (size_t) bytes_read;
-		const char* data_end = data_start + (size_t) bytes_read;
-		const char* line_start = buffer;
 
 		if (bytes_read == 0) {
 			/* No more data in the file: process the remaining text in the buffer as a single entry */
@@ -95,11 +88,7 @@ bool cpuinfo_linux_parse_multiline_file(const char* filename, size_t buffer_size
 
 cleanup:
 	if (file != -1) {
-#if CPUINFO_MOCK
-		cpuinfo_mock_close(file);
-#else
 		close(file);
-#endif
 		file = -1;
 	}
 	return status;
