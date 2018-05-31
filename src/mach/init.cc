@@ -16,7 +16,6 @@ static inline uint32_t bit_mask(uint32_t bits) {
 }
 
 void cpuinfo_x86_mach_init(void) {
-
 	struct cpuinfo_mach_topology mach_topology = cpuinfo_mach_detect_topology();
 	cpuinfo_cores_count = mach_topology.cores;
 	__sync_synchronize();

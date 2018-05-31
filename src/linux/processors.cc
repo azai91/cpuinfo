@@ -353,35 +353,35 @@ bool cpuinfo_linux_detect_core_siblings(
 	}
 }
 
-bool cpuinfo_linux_detect_thread_siblings(
-	uint32_t max_processors_count,
-	uint32_t processor,
-	cpuinfo_siblings_callback callback,
-	void* context)
-{
-	char thread_siblings_filename[THREAD_SIBLINGS_FILENAME_SIZE];
-	const int chars_formatted = snprintf(
-		thread_siblings_filename, THREAD_SIBLINGS_FILENAME_SIZE, THREAD_SIBLINGS_FILENAME_FORMAT, processor);
-	if ((unsigned int) chars_formatted >= THREAD_SIBLINGS_FILENAME_SIZE) {
-		cpuinfo_log_warning("failed to format filename for thread siblings of processor %"PRIu32, processor);
-		return false;
-	}
-
-	struct siblings_context siblings_context = {
-		.group_name = "core",
-		.max_processors_count = max_processors_count,
-		.processor = processor,
-		.callback = callback,
-		.callback_context = context,
-	};
-	if (cpuinfo_linux_parse_cpulist(thread_siblings_filename,
-		(cpuinfo_cpulist_callback) siblings_parser, &siblings_context))
-	{
-		return true;
-	} else {
-		cpuinfo_log_info("failed to parse the list of thread siblings for processor %"PRIu32" from %s",
-			processor, thread_siblings_filename);
-		return false;
-	}
-}
+//bool cpuinfo_linux_detect_thread_siblings(
+//	uint32_t max_processors_count,
+//	uint32_t processor,
+//	cpuinfo_siblings_callback callback,
+//	void* context)
+//{
+//	char thread_siblings_filename[THREAD_SIBLINGS_FILENAME_SIZE];
+//	const int chars_formatted = snprintf(
+//		thread_siblings_filename, THREAD_SIBLINGS_FILENAME_SIZE, THREAD_SIBLINGS_FILENAME_FORMAT, processor);
+//	if ((unsigned int) chars_formatted >= THREAD_SIBLINGS_FILENAME_SIZE) {
+//		cpuinfo_log_warning("failed to format filename for thread siblings of processor %"PRIu32, processor);
+//		return false;
+//	}
+//
+//	struct siblings_context siblings_context = {
+//		.group_name = "core",
+//		.max_processors_count = max_processors_count,
+//		.processor = processor,
+//		.callback = callback,
+//		.callback_context = context,
+//	};
+//	if (cpuinfo_linux_parse_cpulist(thread_siblings_filename,
+//		(cpuinfo_cpulist_callback) siblings_parser, &siblings_context))
+//	{
+//		return true;
+//	} else {
+//		cpuinfo_log_info("failed to parse the list of thread siblings for processor %"PRIu32" from %s",
+//			processor, thread_siblings_filename);
+//		return false;
+//	}
+//}
 

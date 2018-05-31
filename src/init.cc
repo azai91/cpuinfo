@@ -26,7 +26,6 @@ static pthread_once_t init_guard = PTHREAD_ONCE_INIT;
 #include "cpuid.h"
 #include "api.h"
 #include "utils.h"
-#include "log.h"
 
 
 
