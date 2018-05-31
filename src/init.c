@@ -1,7 +1,7 @@
 #ifdef _WIN32
-	#include <windows.h>
+#include <windows.h>
 #else
-	#include <pthread.h>
+#include <pthread.h>
 #endif
 
 #include <cpuinfo.h>
@@ -9,14 +9,14 @@
 #include <log.h>
 
 #ifdef __APPLE__
-	#include "TargetConditionals.h"
+#include "TargetConditionals.h"
 #endif
 
 
 #ifdef _WIN32
-	static INIT_ONCE init_guard = INIT_ONCE_STATIC_INIT;
+static INIT_ONCE init_guard = INIT_ONCE_STATIC_INIT;
 #else
-	static pthread_once_t init_guard = PTHREAD_ONCE_INIT;
+static pthread_once_t init_guard = PTHREAD_ONCE_INIT;
 #endif
 
 bool CPUINFO_ABI cpuinfo_initialize(void) {
