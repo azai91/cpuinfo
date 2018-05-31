@@ -33,18 +33,6 @@ struct cpuinfo_x86_processor {
 
 void cpuinfo_x86_init_processor(struct cpuinfo_x86_processor* processor);
 
-//enum cpuinfo_vendor cpuinfo_x86_decode_vendor(uint32_t ebx, uint32_t ecx, uint32_t edx);
-//struct cpuinfo_x86_model_info cpuinfo_x86_decode_model_info(uint32_t eax);
-//enum cpuinfo_uarch cpuinfo_x86_decode_uarch(
-//	enum cpuinfo_vendor vendor,
-//	const struct cpuinfo_x86_model_info* model_info);
-
-//struct cpuinfo_x86_isa cpuinfo_x86_detect_isa(
-//	const struct cpuid_regs basic_info, const struct cpuid_regs extended_info,
-//	uint32_t max_base_index, uint32_t max_extended_index,
-//	enum cpuinfo_vendor vendor, enum cpuinfo_uarch uarch);
-//struct cpuinfo_x86_isa cpuinfo_x86_nacl_detect_isa(void);
-
 void cpuinfo_x86_detect_topology(
 	uint32_t max_base_index,
 	uint32_t max_extended_index,
@@ -62,8 +50,6 @@ void cpuinfo_x86_linux_init(void);
 #ifdef _WIN32
 BOOL CALLBACK cpuinfo_x86_windows_init(PINIT_ONCE init_once, PVOID parameter, PVOID* context);
 #endif
-void cpuinfo_arm_mach_init(void);
-void cpuinfo_arm_linux_init(void);
 
 typedef void (*cpuinfo_processor_callback)(uint32_t);
 

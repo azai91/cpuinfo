@@ -79,53 +79,6 @@ static void cpuinfo_x86_count_objects(
 				last_core_id = core_id;
 				cores_count++;
 			}
-			/* All bits of APIC ID except thread ID and core ID masks */
-//			const uint32_t package_id = apic_id & package_apic_mask;
-//			if (package_id != last_package_id) {
-//				last_package_id = package_id;
-//				packages_count++;
-//			}
-//			/* Bits of APIC ID which are part of either LLC or package ID mask */
-//			const uint32_t cluster_id = apic_id & cluster_apic_mask;
-//			if (cluster_id != last_cluster_id) {
-//				last_cluster_id = cluster_id;
-//				clusters_count++;
-//			}
-//			if (processor->cache.l1i.size != 0) {
-//				const uint32_t l1i_id = apic_id & ~bit_mask(processor->cache.l1i.apic_bits);
-//				if (l1i_id != last_l1i_id) {
-//					last_l1i_id = l1i_id;
-//					l1i_count++;
-//				}
-//			}
-//			if (processor->cache.l1d.size != 0) {
-//				const uint32_t l1d_id = apic_id & ~bit_mask(processor->cache.l1d.apic_bits);
-//				if (l1d_id != last_l1d_id) {
-//					last_l1d_id = l1d_id;
-//					l1d_count++;
-//				}
-//			}
-//			if (processor->cache.l2.size != 0) {
-//				const uint32_t l2_id = apic_id & ~bit_mask(processor->cache.l2.apic_bits);
-//				if (l2_id != last_l2_id) {
-//					last_l2_id = l2_id;
-//					l2_count++;
-//				}
-//			}
-//			if (processor->cache.l3.size != 0) {
-//				const uint32_t l3_id = apic_id & ~bit_mask(processor->cache.l3.apic_bits);
-//				if (l3_id != last_l3_id) {
-//					last_l3_id = l3_id;
-//					l3_count++;
-//				}
-//			}
-//			if (processor->cache.l4.size != 0) {
-//				const uint32_t l4_id = apic_id & ~bit_mask(processor->cache.l4.apic_bits);
-//				if (l4_id != last_l4_id) {
-//					last_l4_id = l4_id;
-//					l4_count++;
-//				}
-//			}
 		}
 	}
 	*cores_count_ptr = cores_count;

@@ -68,12 +68,4 @@ void cpuinfo_x86_init_processor(struct cpuinfo_x86_processor* processor) {
 		cpuinfo_x86_detect_topology(max_base_index, max_extended_index, leaf1, &processor->topology);
 
 	}
-//	if (max_extended_index >= UINT32_C(0x80000004)) {
-//		struct cpuid_regs brand_string[3];
-//		for (uint32_t i = 0; i < 3; i++) {
-//			brand_string[i] = cpuid(UINT32_C(0x80000002) + i);
-//		}
-//		memcpy(processor->brand_string, brand_string, sizeof(processor->brand_string));
-//		cpuinfo_log_debug("raw CPUID brand string: \"%48s\"", processor->brand_string);
-//	}
 }
