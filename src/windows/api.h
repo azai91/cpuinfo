@@ -2,10 +2,10 @@
 
 #include <stdbool.h>
 #include <stdint.h>
-#include <windows.h>
+//#include <windows.h>
 
 #include <cpuinfo.h>
-#include <x86/api.h>
+#include "../api.h"
 
 struct cpuinfo_arm_linux_processor {
 	/**
