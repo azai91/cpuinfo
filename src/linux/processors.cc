@@ -321,66 +321,34 @@ static bool siblings_parser(uint32_t sibling_list_start, uint32_t sibling_list_e
 	return context->callback(processor, sibling_list_start, sibling_list_end, context->callback_context);
 }
 
-bool cpuinfo_linux_detect_core_siblings(
-	uint32_t max_processors_count,
-	uint32_t processor,
-	cpuinfo_siblings_callback callback,
-	void* context)
-{
-	char core_siblings_filename[CORE_SIBLINGS_FILENAME_SIZE];
-	const int chars_formatted = snprintf(
-		core_siblings_filename, CORE_SIBLINGS_FILENAME_SIZE, CORE_SIBLINGS_FILENAME_FORMAT, processor);
-	if ((unsigned int) chars_formatted >= CORE_SIBLINGS_FILENAME_SIZE) {
-		cpuinfo_log_warning("failed to format filename for core siblings of processor %"PRIu32, processor);
-		return false;
-	}
-
-	struct siblings_context siblings_context = {
-		.group_name = "package",
-		.max_processors_count = max_processors_count,
-		.processor = processor,
-		.callback = callback,
-		.callback_context = context,
-	};
-	if (cpuinfo_linux_parse_cpulist(core_siblings_filename,
-		(cpuinfo_cpulist_callback) siblings_parser, &siblings_context))
-	{
-		return true;
-	} else {
-		cpuinfo_log_info("failed to parse the list of core siblings for processor %"PRIu32" from %s",
-			processor, core_siblings_filename);
-		return false;
-	}
-}
-
-//bool cpuinfo_linux_detect_thread_siblings(
+//bool cpuinfo_linux_detect_core_siblings(
 //	uint32_t max_processors_count,
 //	uint32_t processor,
 //	cpuinfo_siblings_callback callback,
 //	void* context)
 //{
-//	char thread_siblings_filename[THREAD_SIBLINGS_FILENAME_SIZE];
+//	char core_siblings_filename[CORE_SIBLINGS_FILENAME_SIZE];
 //	const int chars_formatted = snprintf(
-//		thread_siblings_filename, THREAD_SIBLINGS_FILENAME_SIZE, THREAD_SIBLINGS_FILENAME_FORMAT, processor);
-//	if ((unsigned int) chars_formatted >= THREAD_SIBLINGS_FILENAME_SIZE) {
-//		cpuinfo_log_warning("failed to format filename for thread siblings of processor %"PRIu32, processor);
+//		core_siblings_filename, CORE_SIBLINGS_FILENAME_SIZE, CORE_SIBLINGS_FILENAME_FORMAT, processor);
+//	if ((unsigned int) chars_formatted >= CORE_SIBLINGS_FILENAME_SIZE) {
+//		cpuinfo_log_warning("failed to format filename for core siblings of processor %"PRIu32, processor);
 //		return false;
 //	}
 //
 //	struct siblings_context siblings_context = {
-//		.group_name = "core",
+//		.group_name = "package",
 //		.max_processors_count = max_processors_count,
 //		.processor = processor,
 //		.callback = callback,
 //		.callback_context = context,
 //	};
-//	if (cpuinfo_linux_parse_cpulist(thread_siblings_filename,
+//	if (cpuinfo_linux_parse_cpulist(core_siblings_filename,
 //		(cpuinfo_cpulist_callback) siblings_parser, &siblings_context))
 //	{
 //		return true;
 //	} else {
-//		cpuinfo_log_info("failed to parse the list of thread siblings for processor %"PRIu32" from %s",
-//			processor, thread_siblings_filename);
+//		cpuinfo_log_info("failed to parse the list of core siblings for processor %"PRIu32" from %s",
+//			processor, core_siblings_filename);
 //		return false;
 //	}
 //}
