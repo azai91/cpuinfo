@@ -5,8 +5,8 @@
 #include <sys/types.h>
 #include <sys/sysctl.h>
 
-#include <log.h>
-#include <x86/mach/api.h>
+#include "../log.h"
+#include "./api.h"
 
 
 struct cpuinfo_mach_topology cpuinfo_mach_detect_topology(void) {
@@ -48,7 +48,7 @@ struct cpuinfo_mach_topology cpuinfo_mach_detect_topology(void) {
 	if (sysctlbyname("hw.cacheconfig", NULL, &cacheconfig_size, NULL, 0) != 0) {
 		cpuinfo_log_error("sysctlbyname(\"hw.cacheconfig\") failed: %s", strerror(errno));
 	} else {
-		uint64_t* cacheconfig = alloca(cacheconfig_size);
+		uint64_t* cacheconfig = (uint64_t*) alloca(cacheconfig_size);
 		if (sysctlbyname("hw.cacheconfig", cacheconfig, &cacheconfig_size, NULL, 0) != 0) {
 			cpuinfo_log_error("sysctlbyname(\"hw.cacheconfig\") failed: %s", strerror(errno));
 		} else {

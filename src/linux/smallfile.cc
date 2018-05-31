@@ -13,8 +13,8 @@
 #if CPUINFO_MOCK
 	#include <cpuinfo-mock.h>
 #endif
-#include <x86/linux/api.h>
-#include <log.h>
+#include "./api.h"
+#include "../log.h"
 
 
 bool cpuinfo_linux_parse_small_file(const char* filename, size_t buffer_size, cpuinfo_smallfile_callback callback, void* context) {

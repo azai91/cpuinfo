@@ -7,10 +7,7 @@
 	#include <intrin.h>
 #endif
 
-#if CPUINFO_MOCK
-	#include <cpuinfo-mock.h>
-#endif
-#include <x86/api.h>
+#include "api.h"
 
 
 #if defined(__GNUC__) || defined(_MSC_VER)

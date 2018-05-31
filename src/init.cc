@@ -4,9 +4,9 @@
 #include <pthread.h>
 #endif
 
+
 #include <cpuinfo.h>
-#include <api.h>
-#include <log.h>
+#include "./api.h"
 
 #ifdef __APPLE__
 #include "TargetConditionals.h"
@@ -18,6 +18,7 @@ static INIT_ONCE init_guard = INIT_ONCE_STATIC_INIT;
 #else
 static pthread_once_t init_guard = PTHREAD_ONCE_INIT;
 #endif
+
 
 bool CPUINFO_ABI cpuinfo_initialize(void) {
 #if CPUINFO_ARCH_X86 || CPUINFO_ARCH_X86_64

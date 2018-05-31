@@ -18,7 +18,7 @@
 
 #include <stddef.h>
 #include <cpuinfo.h>
-#include <x86/api.h>
+#include "../api.h"
 
 
 struct cpuinfo_x86_linux_processor {

@@ -557,9 +557,9 @@ struct cpuinfo_package {
 	uint32_t cluster_count;
 };
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+//#ifdef __cplusplus
+//extern "C" {
+//#endif
 
 bool CPUINFO_ABI cpuinfo_initialize(void);
 
@@ -1326,8 +1326,8 @@ uint32_t CPUINFO_ABI cpuinfo_get_cores_count(void);
 
 const struct cpuinfo_core* CPUINFO_ABI cpuinfo_get_current_core(void);
 
-#ifdef __cplusplus
-} /* extern "C" */
-#endif
+//#ifdef __cplusplus
+//} /* extern "C" */
+//#endif
 
 #endif /* CPUINFO_H */

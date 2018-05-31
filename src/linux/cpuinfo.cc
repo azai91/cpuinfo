@@ -4,8 +4,8 @@
 #include <stddef.h>
 #include <string.h>
 
-#include <x86/linux/api.h>
-#include <log.h>
+#include "./api.h"
+#include "../log.h"
 
 /*
  * Size, in chars, of the on-stack buffer used for parsing lines of /proc/cpuinfo.

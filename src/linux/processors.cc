@@ -13,8 +13,8 @@
 	#include <sched.h>
 #endif
 
-#include <x86/linux/api.h>
-#include <log.h>
+#include "./api.h"
+#include "../log.h"
 
 
 #define STRINGIFY(token) #token

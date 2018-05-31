@@ -4,10 +4,9 @@
 #include <string.h>
 
 #include <cpuinfo.h>
-#include <x86/api.h>
-#include <x86/linux/api.h>
-#include <api.h>
-#include <log.h>
+#include "../api.h"
+#include "./api.h"
+#include "../log.h"
 
 
 static inline uint32_t bit_mask(uint32_t bits) {

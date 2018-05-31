@@ -2,9 +2,10 @@
 #include <stdbool.h>
 
 #include <cpuinfo.h>
-#include <utils.h>
-#include "api.h"
-#include "cpuid.h"
+#include "./utils.h"
+#include "./api.h"
+#include "./cpuid.h"
+#include "./log.h"
 
 
 enum topology_type {

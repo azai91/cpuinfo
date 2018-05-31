@@ -2,7 +2,7 @@
 // Created by Zai, Alexander on 5/17/18.
 //
 
-#include <cpuinfo.h>
+#include "cpuinfo.h"
 #include <iostream>
 
 int main() {
