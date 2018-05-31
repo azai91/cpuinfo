@@ -57,9 +57,6 @@ void cpuinfo_x86_init_processor(struct cpuinfo_x86_processor* processor) {
 	const uint32_t max_extended_index =
 			leaf0x80000000.eax >= UINT32_C(0x80000000) ? leaf0x80000000.eax : 0;
 
-	const struct cpuid_regs leaf0x80000001 = max_extended_index >= UINT32_C(0x80000001) ?
-																					 cpuid(UINT32_C(0x80000001)) : (struct cpuid_regs) { 0, 0, 0, 0 };
-
 	if (max_base_index >= 1) {
 		const struct cpuid_regs leaf1 = cpuid(1);
 		processor->cpuid = leaf1.eax;
