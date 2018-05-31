@@ -16,7 +16,7 @@ OPTION(CPUINFO_BUILD_UNIT_TESTS "Build cpuinfo unit tests" ON)
 OPTION(CPUINFO_BUILD_MOCK_TESTS "Build cpuinfo mock tests" ON)
 OPTION(CPUINFO_BUILD_BENCHMARKS "Build cpuinfo micro-benchmarks" ON)
 
-#set(CMAKE_SYSTEM_NAME Linux)
+set(CMAKE_SYSTEM_NAME Linux)
 
 # ---[ CMake options
 IF(CPUINFO_BUILD_UNIT_TESTS OR CPUINFO_BUILD_MOCK_TESTS)
@@ -85,36 +85,6 @@ ELSEIF(NOT CMAKE_SYSTEM_NAME MATCHES "^(Windows|Darwin|Linux|Android)$")
     "Target operating system \"${CMAKE_SYSTEM_NAME}\" is not supported in cpuinfo. "
     "cpuinfo will compile, but cpuinfo_initialize() will always fail.")
   SET(CPUINFO_SUPPORTED_PLATFORM FALSE)
-ENDIF()
-
-# ---[ Download deps
-SET(CONFU_DEPENDENCIES_SOURCE_DIR ${CMAKE_SOURCE_DIR}/deps
-  CACHE PATH "Confu-style dependencies source directory")
-SET(CONFU_DEPENDENCIES_BINARY_DIR ${CMAKE_BINARY_DIR}/deps
-  CACHE PATH "Confu-style dependencies binary directory")
-
-IF(CPUINFO_BUILD_MOCK_TESTS OR CPUINFO_BUILD_UNIT_TESTS)
-  IF(CPUINFO_SUPPORTED_PLATFORM AND NOT DEFINED GOOGLETEST_SOURCE_DIR)
-    MESSAGE(STATUS "Downloading Google Test to ${CONFU_DEPENDENCIES_SOURCE_DIR}/googletest (define GOOGLETEST_SOURCE_DIR to avoid it)")
-    CONFIGURE_FILE(cmake/DownloadGoogleTest.cmake "${CONFU_DEPENDENCIES_BINARY_DIR}/googletest-download/CMakeLists.txt")
-    EXECUTE_PROCESS(COMMAND "${CMAKE_COMMAND}" -G "${CMAKE_GENERATOR}" .
-      WORKING_DIRECTORY "${CONFU_DEPENDENCIES_BINARY_DIR}/googletest-download")
-    EXECUTE_PROCESS(COMMAND "${CMAKE_COMMAND}" --build .
-      WORKING_DIRECTORY "${CONFU_DEPENDENCIES_BINARY_DIR}/googletest-download")
-    SET(GOOGLETEST_SOURCE_DIR "${CONFU_DEPENDENCIES_SOURCE_DIR}/googletest" CACHE STRING "Google Test source directory")
-  ENDIF()
-ENDIF()
-
-IF(CPUINFO_BUILD_BENCHMARKS)
-  IF(CPUINFO_SUPPORTED_PLATFORM AND NOT DEFINED GOOGLEBENCHMARK_SOURCE_DIR)
-    MESSAGE(STATUS "Downloading Google Benchmark to ${CONFU_DEPENDENCIES_SOURCE_DIR}/googlebenchmark (define GOOGLEBENCHMARK_SOURCE_DIR to avoid it)")
-    CONFIGURE_FILE(cmake/DownloadGoogleBenchmark.cmake "${CONFU_DEPENDENCIES_BINARY_DIR}/googlebenchmark-download/CMakeLists.txt")
-    EXECUTE_PROCESS(COMMAND "${CMAKE_COMMAND}" -G "${CMAKE_GENERATOR}" .
-      WORKING_DIRECTORY "${CONFU_DEPENDENCIES_BINARY_DIR}/googlebenchmark-download")
-    EXECUTE_PROCESS(COMMAND "${CMAKE_COMMAND}" --build .
-      WORKING_DIRECTORY "${CONFU_DEPENDENCIES_BINARY_DIR}/googlebenchmark-download")
-    SET(GOOGLEBENCHMARK_SOURCE_DIR "${CONFU_DEPENDENCIES_SOURCE_DIR}/googlebenchmark" CACHE STRING "Google Benchmark source directory")
-  ENDIF()
 ENDIF()
 
 # ---[ cpuinfo library
@@ -188,136 +158,9 @@ ELSE()
   TARGET_COMPILE_DEFINITIONS(cpuinfo INTERFACE CPUINFO_SUPPORTED_PLATFORM=0)
 ENDIF()
 
-INSTALL(TARGETS cpuinfo
-  LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-  ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-  PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 
-# ---[ cpuinfo micro-benchmarks
-IF(CPUINFO_SUPPORTED_PLATFORM AND CPUINFO_BUILD_BENCHMARKS)
-  # ---[ Build google benchmark
-  IF(NOT TARGET benchmark)
-    SET(BENCHMARK_ENABLE_TESTING OFF CACHE BOOL "")
-    ADD_SUBDIRECTORY(
-      "${GOOGLEBENCHMARK_SOURCE_DIR}"
-      "${CONFU_DEPENDENCIES_BINARY_DIR}/googlebenchmark")
-  ENDIF()
-
-  IF(CMAKE_SYSTEM_NAME MATCHES "^(Linux|Android)$")
-#    ADD_EXECUTABLE(get-current-bench bench/get-current.cc)
-#    TARGET_LINK_LIBRARIES(get-current-bench cpuinfo benchmark)
-  ENDIF()
-
-#  ADD_EXECUTABLE(init-bench bench/init.cc)
-#  TARGET_LINK_LIBRARIES(init-bench cpuinfo benchmark)
-ENDIF()
-
-IF(CPUINFO_SUPPORTED_PLATFORM)
-  IF(CPUINFO_BUILD_MOCK_TESTS OR CPUINFO_BUILD_UNIT_TESTS)
-    # ---[ Build google test
-    IF(NOT TARGET gtest)
-      IF(MSVC AND NOT CPUINFO_RUNTIME_TYPE STREQUAL "static")
-        SET(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
-        SET(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
-      ENDIF()
-      ADD_SUBDIRECTORY(
-        "${GOOGLETEST_SOURCE_DIR}"
-        "${CONFU_DEPENDENCIES_BINARY_DIR}/googletest")
-    ENDIF()
-  ENDIF()
-ENDIF()
-
-# ---[ cpuinfo mock library and mock tests
-IF(CPUINFO_SUPPORTED_PLATFORM AND CPUINFO_BUILD_MOCK_TESTS)
-  SET(CPUINFO_MOCK_SRCS "${CPUINFO_SRCS}" main.cpp)
-
-  IF(CMAKE_SYSTEM_PROCESSOR MATCHES "^(i686|x86_64)$")
-    LIST(APPEND CPUINFO_MOCK_SRCS src/x86/mockcpuid.c)
-  ENDIF()
-  IF(CMAKE_SYSTEM_NAME STREQUAL "Linux" OR CMAKE_SYSTEM_NAME STREQUAL "Android")
-    LIST(APPEND CPUINFO_MOCK_SRCS src/x86/linux/mockfile.c)
-  ENDIF()
-
-  ADD_LIBRARY(cpuinfo_mock STATIC ${CPUINFO_MOCK_SRCS})
-  CPUINFO_TARGET_ENABLE_C99(cpuinfo_mock)
-  CPUINFO_TARGET_RUNTIME_LIBRARY(cpuinfo_mock)
-  SET_TARGET_PROPERTIES(cpuinfo_mock PROPERTIES PUBLIC_HEADER include/cpuinfo.h)
-  TARGET_INCLUDE_DIRECTORIES(cpuinfo_mock BEFORE PUBLIC include)
-  TARGET_INCLUDE_DIRECTORIES(cpuinfo_mock BEFORE PRIVATE src)
-  TARGET_COMPILE_DEFINITIONS(cpuinfo_mock PUBLIC CPUINFO_MOCK=1)
-  TARGET_COMPILE_DEFINITIONS(cpuinfo_mock PRIVATE CPUINFO_LOG_TO_STDIO=1)
-  IF(CMAKE_SYSTEM_NAME STREQUAL "Linux" OR CMAKE_SYSTEM_NAME STREQUAL "Android")
-    TARGET_LINK_LIBRARIES(cpuinfo_mock PUBLIC ${CMAKE_THREAD_LIBS_INIT})
-  ENDIF()
-  IF(CMAKE_SYSTEM_NAME STREQUAL "Linux")
-    TARGET_COMPILE_DEFINITIONS(cpuinfo_mock PRIVATE _GNU_SOURCE=1)
-  ENDIF()
-
-ENDIF()
-
-# ---[ cpuinfo unit tests
-IF(CPUINFO_SUPPORTED_PLATFORM AND CPUINFO_BUILD_UNIT_TESTS)
-  ADD_EXECUTABLE(init-test test/init.cc)
-  CPUINFO_TARGET_ENABLE_CXX11(init-test)
-  CPUINFO_TARGET_RUNTIME_LIBRARY(init-test)
-  TARGET_LINK_LIBRARIES(init-test PRIVATE cpuinfo gtest)
-  ADD_TEST(init-test init-test)
-
-  IF(CMAKE_SYSTEM_NAME STREQUAL "Linux" OR CMAKE_SYSTEM_NAME STREQUAL "Android")
-    ADD_EXECUTABLE(get-current-test test/get-current.cc)
-    CPUINFO_TARGET_ENABLE_CXX11(get-current-test)
-    CPUINFO_TARGET_RUNTIME_LIBRARY(get-current-test)
-    TARGET_LINK_LIBRARIES(get-current-test PRIVATE cpuinfo gtest)
-    ADD_TEST(get-current-test get-current-test)
-  ENDIF()
-
-  IF(CMAKE_SYSTEM_PROCESSOR MATCHES "^(i686|x86_64)$")
-    ADD_EXECUTABLE(brand-string-test test/name/brand-string.cc)
-    CPUINFO_TARGET_ENABLE_CXX11(brand-string-test)
-    CPUINFO_TARGET_RUNTIME_LIBRARY(brand-string-test)
-    TARGET_LINK_LIBRARIES(brand-string-test PRIVATE cpuinfo gtest gtest_main)
-    ADD_TEST(brand-string-test brand-string-test)
-  ENDIF()
-
-ENDIF()
-
-# ---[ Helper and debug tools
-#IF(CPUINFO_SUPPORTED_PLATFORM AND CPUINFO_BUILD_TOOLS)
-#  ADD_EXECUTABLE(isa-info tools/isa-info.c)
-#  CPUINFO_TARGET_ENABLE_C99(isa-info)
-#  CPUINFO_TARGET_RUNTIME_LIBRARY(isa-info)
-#  TARGET_LINK_LIBRARIES(isa-info PRIVATE cpuinfo)
-#
-#ADD_EXECUTABLE(cpu-info tools/cpu-info.c)
-#CPUINFO_TARGET_ENABLE_C99(cpu-info)
-#CPUINFO_TARGET_RUNTIME_LIBRARY(cpu-info)
-#TARGET_LINK_LIBRARIES(cpu-info PRIVATE cpuinfo)
-#
-#  ADD_EXECUTABLE(cache-info tools/cache-info.c)
-#  CPUINFO_TARGET_ENABLE_C99(cache-info)
-#  CPUINFO_TARGET_RUNTIME_LIBRARY(cache-info)
-#  TARGET_LINK_LIBRARIES(cache-info PRIVATE cpuinfo)
-#
-#  IF(CMAKE_SYSTEM_NAME MATCHES "^(Android|Linux)$" AND CMAKE_SYSTEM_PROCESSOR MATCHES "^(armv5te|armv7|armv7-a|armv7l|arm64|aarch64)$")
-#    ADD_EXECUTABLE(auxv-dump tools/auxv-dump.c)
-#    CPUINFO_TARGET_ENABLE_C99(auxv-dump)
-#    CPUINFO_TARGET_RUNTIME_LIBRARY(auxv-dump)
-#    TARGET_LINK_LIBRARIES(auxv-dump PRIVATE ${CMAKE_DL_LIBS})
-#
-#    ADD_EXECUTABLE(cpuinfo-dump tools/cpuinfo-dump.c)
-#    CPUINFO_TARGET_ENABLE_C99(cpuinfo-dump)
-#    CPUINFO_TARGET_RUNTIME_LIBRARY(cpuinfo-dump)
-#  ENDIF()
-#
-#  IF(CMAKE_SYSTEM_PROCESSOR MATCHES "^(i686|AMD64|x86_64)$")
-#    ADD_EXECUTABLE(cpuid-dump tools/cpuid-dump.c)
-#    CPUINFO_TARGET_ENABLE_C99(cpuid-dump)
-#    CPUINFO_TARGET_RUNTIME_LIBRARY(cpuid-dump)
-#    TARGET_INCLUDE_DIRECTORIES(cpuid-dump BEFORE PRIVATE src)
-#    TARGET_INCLUDE_DIRECTORIES(cpuid-dump BEFORE PRIVATE include)
-#  ENDIF()
-#ENDIF()
-
-
-add_executable(main main.cpp)
-target_link_libraries(main cpuinfo)
+FILE(GLOB_RECURSE SOURCE "src/*.h" "src/*.c")
+message(WARNING "${SOURCE}")
+add_executable(main main.cpp ${SOURCE})
+target_include_directories(main PUBLIC include)
+#target_link_libraries(main cpuinfo)
