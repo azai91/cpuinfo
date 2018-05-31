@@ -299,25 +299,3 @@ bool cpuinfo_linux_detect_present_processors(uint32_t max_processors_count,
 	}
 }
 
-struct siblings_context {
-	const char* group_name;
-	uint32_t max_processors_count;
-	uint32_t processor;
-	cpuinfo_siblings_callback callback;
-	void* callback_context;
-};
-
-//static bool siblings_parser(uint32_t sibling_list_start, uint32_t sibling_list_end, struct siblings_context* context) {
-//	const char* group_name                   = context->group_name;
-//	const uint32_t max_processors_count      = context->max_processors_count;
-//	const uint32_t processor                 = context->processor;
-//
-//	if (sibling_list_end > max_processors_count) {
-//		cpuinfo_log_warning("ignore %s siblings %"PRIu32"-%"PRIu32" of processor %"PRIu32,
-//			group_name, max_processors_count, sibling_list_end - 1, processor);
-//		sibling_list_end = max_processors_count;
-//	}
-//
-//	return context->callback(processor, sibling_list_start, sibling_list_end, context->callback_context);
-//}
-
