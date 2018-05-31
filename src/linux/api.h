@@ -51,12 +51,6 @@ bool cpuinfo_linux_detect_possible_processors(uint32_t max_processors_count,
 bool cpuinfo_linux_detect_present_processors(uint32_t max_processors_count,
 																						 uint32_t* processor0_flags, uint32_t processor_struct_size, uint32_t present_flag);
 typedef bool (*cpuinfo_siblings_callback)(uint32_t, uint32_t, uint32_t, void*);
-//bool cpuinfo_linux_detect_core_siblings(
-//		uint32_t max_processors_count,
-//		uint32_t processor,
-//		cpuinfo_siblings_callback callback,
-//		void* context);
-
 
 extern const struct cpuinfo_processor** cpuinfo_linux_cpu_to_processor_map;
 extern const struct cpuinfo_core** cpuinfo_linux_cpu_to_core_map;

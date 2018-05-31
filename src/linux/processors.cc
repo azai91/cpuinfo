@@ -307,49 +307,17 @@ struct siblings_context {
 	void* callback_context;
 };
 
-static bool siblings_parser(uint32_t sibling_list_start, uint32_t sibling_list_end, struct siblings_context* context) {
-	const char* group_name                   = context->group_name;
-	const uint32_t max_processors_count      = context->max_processors_count;
-	const uint32_t processor                 = context->processor;
-
-	if (sibling_list_end > max_processors_count) {
-		cpuinfo_log_warning("ignore %s siblings %"PRIu32"-%"PRIu32" of processor %"PRIu32,
-			group_name, max_processors_count, sibling_list_end - 1, processor);
-		sibling_list_end = max_processors_count;
-	}
-
-	return context->callback(processor, sibling_list_start, sibling_list_end, context->callback_context);
-}
-
-//bool cpuinfo_linux_detect_core_siblings(
-//	uint32_t max_processors_count,
-//	uint32_t processor,
-//	cpuinfo_siblings_callback callback,
-//	void* context)
-//{
-//	char core_siblings_filename[CORE_SIBLINGS_FILENAME_SIZE];
-//	const int chars_formatted = snprintf(
-//		core_siblings_filename, CORE_SIBLINGS_FILENAME_SIZE, CORE_SIBLINGS_FILENAME_FORMAT, processor);
-//	if ((unsigned int) chars_formatted >= CORE_SIBLINGS_FILENAME_SIZE) {
-//		cpuinfo_log_warning("failed to format filename for core siblings of processor %"PRIu32, processor);
-//		return false;
+//static bool siblings_parser(uint32_t sibling_list_start, uint32_t sibling_list_end, struct siblings_context* context) {
+//	const char* group_name                   = context->group_name;
+//	const uint32_t max_processors_count      = context->max_processors_count;
+//	const uint32_t processor                 = context->processor;
+//
+//	if (sibling_list_end > max_processors_count) {
+//		cpuinfo_log_warning("ignore %s siblings %"PRIu32"-%"PRIu32" of processor %"PRIu32,
+//			group_name, max_processors_count, sibling_list_end - 1, processor);
+//		sibling_list_end = max_processors_count;
 //	}
 //
-//	struct siblings_context siblings_context = {
-//		.group_name = "package",
-//		.max_processors_count = max_processors_count,
-//		.processor = processor,
-//		.callback = callback,
-//		.callback_context = context,
-//	};
-//	if (cpuinfo_linux_parse_cpulist(core_siblings_filename,
-//		(cpuinfo_cpulist_callback) siblings_parser, &siblings_context))
-//	{
-//		return true;
-//	} else {
-//		cpuinfo_log_info("failed to parse the list of core siblings for processor %"PRIu32" from %s",
-//			processor, core_siblings_filename);
-//		return false;
-//	}
+//	return context->callback(processor, sibling_list_start, sibling_list_end, context->callback_context);
 //}
 
