@@ -8,6 +8,7 @@
 #include "./api.h"
 #include "../log.h"
 #include <malloc.h>
+#include <iostream>
 
 #define alloca _alloca
 
@@ -32,7 +33,7 @@ static inline uint32_t low_index_from_kaffinity(KAFFINITY kaffinity) {
 }
 
 BOOL CALLBACK cpuinfo_x86_windows_init(PINIT_ONCE init_once, PVOID parameter, PVOID* context) {
-	struct cpuinfo_processor* processors = NULL;
+	// struct cpuinfo_processor* processors = NULL;
 //	struct cpuinfo_core* cores = NULL;
 //	struct cpuinfo_cluster* clusters = NULL;
 //	struct cpuinfo_package* packages = NULL;
@@ -77,12 +78,7 @@ BOOL CALLBACK cpuinfo_x86_windows_init(PINIT_ONCE init_once, PVOID parameter, PV
 		count += processors_per_group[i];
 	}
 
-	processors = (cpuinfo_processor*) HeapAlloc(heap, HEAP_ZERO_MEMORY, processors_count * sizeof(struct cpuinfo_processor));
-	if (processors == NULL) {
-		cpuinfo_log_error("failed to allocate %zu bytes for descriptions of % logical processors",
-			processors_count * sizeof(struct cpuinfo_processor), processors_count);
-		goto cleanup;
-	}
+	//
 
 	DWORD cores_info_size = 0;
 	if (GetLogicalProcessorInformationEx(RelationProcessorCore, NULL, &cores_info_size) == FALSE) {
@@ -94,6 +90,7 @@ BOOL CALLBACK cpuinfo_x86_windows_init(PINIT_ONCE init_once, PVOID parameter, PV
 		}
 	}
 
+	std::cout << cores_info_size;
 	DWORD packages_info_size = 0;
 	if (GetLogicalProcessorInformationEx(RelationProcessorPackage, NULL, &packages_info_size) == FALSE) {
 		const DWORD last_error = GetLastError();
@@ -106,18 +103,27 @@ BOOL CALLBACK cpuinfo_x86_windows_init(PINIT_ONCE init_once, PVOID parameter, PV
 
 	DWORD max_info_size = max(cores_info_size, packages_info_size);
 
-	processor_infos = (PSYSTEM_LOGICAL_PROCESSOR_INFORMATION_EX*) HeapAlloc(heap, 0, max_info_size);
+	processor_infos = (PSYSTEM_LOGICAL_PROCESSOR_INFORMATION_EX) HeapAlloc(heap, 0, max_info_size);
+
 	if (processor_infos == NULL) {
 		cpuinfo_log_error("failed to allocate % bytes for logical processor information",
-			(uint32_t) max_info_size);
+			(uint32_t)max_info_size);
 		goto cleanup;
 	}
 
 	if (GetLogicalProcessorInformationEx(RelationProcessorPackage, processor_infos, &max_info_size) == FALSE) {
 		cpuinfo_log_error("failed to query processor packages information: error %",
-			(uint32_t) GetLastError());
+			(uint32_t)GetLastError());
 		goto cleanup;
 	}
+
+	max_info_size = max(cores_info_size, packages_info_size);
+	if (GetLogicalProcessorInformationEx(RelationProcessorCore, processor_infos, &max_info_size) == FALSE) {
+		cpuinfo_log_error("failed to query processor cores information: error %",
+			(uint32_t)GetLastError());
+		goto cleanup;
+	}
+
 
 //	uint32_t packages_count = 0;
 //	PSYSTEM_LOGICAL_PROCESSOR_INFORMATION_EX packages_info_end =
@@ -167,6 +173,7 @@ BOOL CALLBACK cpuinfo_x86_windows_init(PINIT_ONCE init_once, PVOID parameter, PV
 		core_info < cores_info_end;
 		core_info = (PSYSTEM_LOGICAL_PROCESSOR_INFORMATION_EX) ((uintptr_t) core_info + core_info->Size))
 	{
+		std::cout << core_info << std::endl;
 		if (core_info->Relationship != RelationProcessorCore) {
 			cpuinfo_log_warning("unexpected processor info type (%) for processor core information",
 				(uint32_t) core_info->Relationship);
@@ -184,6 +191,7 @@ BOOL CALLBACK cpuinfo_x86_windows_init(PINIT_ONCE init_once, PVOID parameter, PV
 	MemoryBarrier();
 
 	cpuinfo_is_initialized = true;
+	cleanup:
 
 	return TRUE;
 }
