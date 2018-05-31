@@ -71,7 +71,7 @@ static void cpuinfo_x86_count_objects(
 	for (uint32_t i = 0; i < linux_processors_count; i++) {
 		if (bitmask_all(linux_processors[i].flags, CPUINFO_LINUX_MASK_USABLE)) {
 			const uint32_t apic_id = linux_processors[i].apic_id;
-			cpuinfo_log_debug("APID ID %"PRIu32": system processor %"PRIu32, apic_id, linux_processors[i].linux_id);
+			cpuinfo_log_debug("APID ID %: system processor %"PRIu32, apic_id, linux_processors[i].linux_id);
 
 			/* All bits of APIC ID except thread ID mask */
 			const uint32_t core_id = apic_id & core_apic_mask;
@@ -109,7 +109,7 @@ void cpuinfo_x86_linux_init(void) {
 	x86_linux_processors = (cpuinfo_x86_linux_processor*) calloc(x86_linux_processors_count, sizeof(struct cpuinfo_x86_linux_processor));
 	if (x86_linux_processors == NULL) {
 		cpuinfo_log_error(
-			"failed to allocate %zu bytes for descriptions of %"PRIu32" x86 logical processors",
+			"failed to allocate %zu bytes for descriptions of % x86 logical processors",
 			x86_linux_processors_count * sizeof(struct cpuinfo_x86_linux_processor),
 			x86_linux_processors_count);
 		return;
@@ -144,7 +144,7 @@ void cpuinfo_x86_linux_init(void) {
 	cpuinfo_x86_count_objects(x86_linux_processors_count, x86_linux_processors, &x86_processor, llc_apic_bits,
 		&cores_count, &clusters_count, &packages_count, &l1i_count, &l1d_count, &l2_count, &l3_count, &l4_count);
 
-	cpuinfo_log_debug("detected %"PRIu32" cores", cores_count);
+	cpuinfo_log_debug("detected % cores", cores_count);
 
 	cpuinfo_cores_count = cores_count;
 

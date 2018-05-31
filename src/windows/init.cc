@@ -43,7 +43,7 @@ static void cpuinfo_x86_count_caches(
 	uint32_t last_l2_id = UINT32_MAX, last_l3_id = UINT32_MAX, last_l4_id = UINT32_MAX;
 	for (uint32_t i = 0; i < processors_count; i++) {
 		const uint32_t apic_id = processors[i].apic_id;
-		cpuinfo_log_debug("APID ID %"PRIu32": logical processor %"PRIu32, apic_id, i);
+		cpuinfo_log_debug("APID ID %: logical processor %"PRIu32, apic_id, i);
 
 		if (x86_processor->cache.l1i.size != 0) {
 			const uint32_t l1i_id = apic_id & ~bit_mask(x86_processor->cache.l1i.apic_bits);
@@ -115,13 +115,13 @@ BOOL CALLBACK cpuinfo_x86_windows_init(PINIT_ONCE init_once, PVOID parameter, PV
 		x86_processor.topology.core_bits_offset + x86_processor.topology.core_bits_length);
 
 	const uint32_t max_group_count = (uint32_t) GetMaximumProcessorGroupCount();
-	cpuinfo_log_debug("detected %"PRIu32" processor groups", max_group_count);
+	cpuinfo_log_debug("detected % processor groups", max_group_count);
 
 	uint32_t processors_count = 0;
 	uint32_t* processors_per_group = (uint32_t*) _alloca(max_group_count * sizeof(uint32_t));
 	for (uint32_t i = 0; i < max_group_count; i++) {
 		processors_per_group[i] = GetMaximumProcessorCount((WORD) i);
-		cpuinfo_log_debug("detected %"PRIu32" processors in group %"PRIu32,
+		cpuinfo_log_debug("detected % processors in group %"PRIu32,
 			processors_per_group[i], i);
 		processors_count += processors_per_group[i];
 	}
@@ -129,14 +129,14 @@ BOOL CALLBACK cpuinfo_x86_windows_init(PINIT_ONCE init_once, PVOID parameter, PV
 	uint32_t* processors_before_group = (uint32_t*) _alloca(max_group_count * sizeof(uint32_t));
 	for (uint32_t i = 0, count = 0; i < max_group_count; i++) {
 		processors_before_group[i] = count;
-		cpuinfo_log_debug("detected %"PRIu32" processors before group %"PRIu32,
+		cpuinfo_log_debug("detected % processors before group %"PRIu32,
 			processors_before_group[i], i);
 		count += processors_per_group[i];
 	}
 
 	processors = HeapAlloc(heap, HEAP_ZERO_MEMORY, processors_count * sizeof(struct cpuinfo_processor));
 	if (processors == NULL) {
-		cpuinfo_log_error("failed to allocate %zu bytes for descriptions of %"PRIu32" logical processors",
+		cpuinfo_log_error("failed to allocate %zu bytes for descriptions of % logical processors",
 			processors_count * sizeof(struct cpuinfo_processor), processors_count);
 		goto cleanup;
 	}
@@ -165,7 +165,7 @@ BOOL CALLBACK cpuinfo_x86_windows_init(PINIT_ONCE init_once, PVOID parameter, PV
 
 	processor_infos = HeapAlloc(heap, 0, max_info_size);
 	if (processor_infos == NULL) {
-		cpuinfo_log_error("failed to allocate %"PRIu32" bytes for logical processor information",
+		cpuinfo_log_error("failed to allocate % bytes for logical processor information",
 			(uint32_t) max_info_size);
 		goto cleanup;
 	}
@@ -184,7 +184,7 @@ BOOL CALLBACK cpuinfo_x86_windows_init(PINIT_ONCE init_once, PVOID parameter, PV
 		package_info = (PSYSTEM_LOGICAL_PROCESSOR_INFORMATION_EX) ((uintptr_t) package_info + package_info->Size))
 	{
 		if (package_info->Relationship != RelationProcessorPackage) {
-			cpuinfo_log_warning("unexpected processor info type (%"PRIu32") for processor package information",
+			cpuinfo_log_warning("unexpected processor info type (%) for processor package information",
 				(uint32_t) package_info->Relationship);
 			continue;
 		}
@@ -232,7 +232,7 @@ BOOL CALLBACK cpuinfo_x86_windows_init(PINIT_ONCE init_once, PVOID parameter, PV
 		core_info = (PSYSTEM_LOGICAL_PROCESSOR_INFORMATION_EX) ((uintptr_t) core_info + core_info->Size))
 	{
 		if (core_info->Relationship != RelationProcessorCore) {
-			cpuinfo_log_warning("unexpected processor info type (%"PRIu32") for processor core information",
+			cpuinfo_log_warning("unexpected processor info type (%) for processor core information",
 				(uint32_t) core_info->Relationship);
 			continue;
 		}
