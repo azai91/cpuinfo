@@ -153,7 +153,7 @@ void cpuinfo_x86_linux_init(void) {
 	cpuinfo_log_debug("maximum present processors count: %"PRIu32, max_present_processors_count);
 
 	const uint32_t x86_linux_processors_count = min(max_possible_processors_count, max_present_processors_count);
-	x86_linux_processors = calloc(x86_linux_processors_count, sizeof(struct cpuinfo_x86_linux_processor));
+	x86_linux_processors = (cpuinfo_x86_linux_processor*) calloc(x86_linux_processors_count, sizeof(struct cpuinfo_x86_linux_processor));
 	if (x86_linux_processors == NULL) {
 		cpuinfo_log_error(
 			"failed to allocate %zu bytes for descriptions of %"PRIu32" x86 logical processors",
