@@ -105,28 +105,9 @@ void cpuinfo_x86_detect_topology(
 	struct cpuinfo_x86_topology* topology);
 
 
-uint32_t cpuinfo_x86_normalize_brand_string(
-	const char raw_name[48],
-	char normalized_name[48]);
-
-uint32_t cpuinfo_x86_format_package_name(
-	enum cpuinfo_vendor vendor,
-	const char normalized_brand_string[48],
-	char package_name[CPUINFO_PACKAGE_NAME_MAX]);
-
-enum cpuinfo_cache_level {
-	cpuinfo_cache_level_1i  = 0,
-	cpuinfo_cache_level_1d  = 1,
-	cpuinfo_cache_level_2   = 2,
-	cpuinfo_cache_level_3   = 3,
-	cpuinfo_cache_level_4   = 4,
-	cpuinfo_cache_level_max = 5,
-};
-
 extern bool cpuinfo_is_initialized;
 extern struct cpuinfo_processor* cpuinfo_processors;
 extern struct cpuinfo_core* cpuinfo_cores;
-extern struct cpuinfo_cache* cpuinfo_cache[cpuinfo_cache_level_max];
 extern uint32_t cpuinfo_cores_count;
 
 void cpuinfo_x86_mach_init(void);
