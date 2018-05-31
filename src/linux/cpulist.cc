@@ -132,7 +132,12 @@ bool cpuinfo_linux_parse_cpulist(const char* filename, cpuinfo_cpulist_callback 
 	char buffer[BUFFER_SIZE];
 	#if CPUINFO_LOG_DEBUG_PARSERS
 		cpuinfo_log_debug("parsing cpu list from file %s", filename);
-	#endif
+  #endif
+
+	size_t position = 0;
+	const char* buffer_end = &buffer[BUFFER_SIZE];
+	char* data_start = buffer;
+	ssize_t bytes_read;
 
 	file = open(filename, O_RDONLY);
 	if (file == -1) {
@@ -141,10 +146,6 @@ bool cpuinfo_linux_parse_cpulist(const char* filename, cpuinfo_cpulist_callback 
 		goto cleanup;
 	}
 
-	size_t position = 0;
-	const char* buffer_end = &buffer[BUFFER_SIZE];
-	char* data_start = buffer;
-	ssize_t bytes_read;
 	do {
 
 		bytes_read = read(file, data_start, (size_t) (buffer_end - data_start));
