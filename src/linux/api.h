@@ -29,7 +29,7 @@ struct cpuinfo_x86_linux_processor {
 
 bool cpuinfo_x86_linux_parse_proc_cpuinfo(
 	uint32_t max_processors_count,
-	struct cpuinfo_x86_linux_processor processors[max_processors_count]);
+	cpuinfo_x86_linux_processor* processors);
 
 typedef bool (*cpuinfo_cpulist_callback)(uint32_t, uint32_t, void*);
 bool cpuinfo_linux_parse_cpulist(const char* filename, cpuinfo_cpulist_callback callback, void* context);
