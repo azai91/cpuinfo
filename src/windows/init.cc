@@ -43,7 +43,7 @@ static void cpuinfo_x86_count_caches(
 	uint32_t last_l2_id = UINT32_MAX, last_l3_id = UINT32_MAX, last_l4_id = UINT32_MAX;
 	for (uint32_t i = 0; i < processors_count; i++) {
 		const uint32_t apic_id = processors[i].apic_id;
-		cpuinfo_log_debug("APID ID %: logical processor %"PRIu32, apic_id, i);
+		cpuinfo_log_debug("APID ID %: logical processor %", apic_id, i);
 
 		if (x86_processor->cache.l1i.size != 0) {
 			const uint32_t l1i_id = apic_id & ~bit_mask(x86_processor->cache.l1i.apic_bits);
@@ -121,7 +121,7 @@ BOOL CALLBACK cpuinfo_x86_windows_init(PINIT_ONCE init_once, PVOID parameter, PV
 	uint32_t* processors_per_group = (uint32_t*) _alloca(max_group_count * sizeof(uint32_t));
 	for (uint32_t i = 0; i < max_group_count; i++) {
 		processors_per_group[i] = GetMaximumProcessorCount((WORD) i);
-		cpuinfo_log_debug("detected % processors in group %"PRIu32,
+		cpuinfo_log_debug("detected % processors in group %",
 			processors_per_group[i], i);
 		processors_count += processors_per_group[i];
 	}
@@ -129,7 +129,7 @@ BOOL CALLBACK cpuinfo_x86_windows_init(PINIT_ONCE init_once, PVOID parameter, PV
 	uint32_t* processors_before_group = (uint32_t*) _alloca(max_group_count * sizeof(uint32_t));
 	for (uint32_t i = 0, count = 0; i < max_group_count; i++) {
 		processors_before_group[i] = count;
-		cpuinfo_log_debug("detected % processors before group %"PRIu32,
+		cpuinfo_log_debug("detected % processors before group %",
 			processors_before_group[i], i);
 		count += processors_per_group[i];
 	}
@@ -145,7 +145,7 @@ BOOL CALLBACK cpuinfo_x86_windows_init(PINIT_ONCE init_once, PVOID parameter, PV
 	if (GetLogicalProcessorInformationEx(RelationProcessorCore, NULL, &cores_info_size) == FALSE) {
 		const DWORD last_error = GetLastError();
 		if (last_error != ERROR_INSUFFICIENT_BUFFER) {
-			cpuinfo_log_error("failed to query size of processor cores information: error %"PRIu32,
+			cpuinfo_log_error("failed to query size of processor cores information: error %",
 				(uint32_t) last_error);
 			goto cleanup;
 		}
@@ -155,7 +155,7 @@ BOOL CALLBACK cpuinfo_x86_windows_init(PINIT_ONCE init_once, PVOID parameter, PV
 	if (GetLogicalProcessorInformationEx(RelationProcessorPackage, NULL, &packages_info_size) == FALSE) {
 		const DWORD last_error = GetLastError();
 		if (last_error != ERROR_INSUFFICIENT_BUFFER) {
-			cpuinfo_log_error("failed to query size of processor packages information: error %"PRIu32,
+			cpuinfo_log_error("failed to query size of processor packages information: error %",
 				(uint32_t) last_error);
 			goto cleanup;
 		}
@@ -171,7 +171,7 @@ BOOL CALLBACK cpuinfo_x86_windows_init(PINIT_ONCE init_once, PVOID parameter, PV
 	}
 
 	if (GetLogicalProcessorInformationEx(RelationProcessorPackage, processor_infos, &max_info_size) == FALSE) {
-		cpuinfo_log_error("failed to query processor packages information: error %"PRIu32,
+		cpuinfo_log_error("failed to query processor packages information: error %",
 			(uint32_t) GetLastError());
 		goto cleanup;
 	}
@@ -216,7 +216,7 @@ BOOL CALLBACK cpuinfo_x86_windows_init(PINIT_ONCE init_once, PVOID parameter, PV
 
 	max_info_size = max(cores_info_size, packages_info_size);
 	if (GetLogicalProcessorInformationEx(RelationProcessorCore, processor_infos, &max_info_size) == FALSE) {
-		cpuinfo_log_error("failed to query processor cores information: error %"PRIu32,
+		cpuinfo_log_error("failed to query processor cores information: error %",
 			(uint32_t) GetLastError());
 		goto cleanup;
 	}

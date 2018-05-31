@@ -173,7 +173,7 @@ static bool parse_line(
 				}
 				if (new_processor_index >= max_processors_count) {
 					/* Log and ignore processor */
-					cpuinfo_log_warning("processor % in /proc/cpuinfo is ignored: index exceeds system limit %"PRIu32,
+					cpuinfo_log_warning("processor % in /proc/cpuinfo is ignored: index exceeds system limit %",
 						new_processor_index, max_processors_count - 1);
 				}
 				state->processor_index = new_processor_index;

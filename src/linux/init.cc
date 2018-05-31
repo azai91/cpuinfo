@@ -71,7 +71,7 @@ static void cpuinfo_x86_count_objects(
 	for (uint32_t i = 0; i < linux_processors_count; i++) {
 		if (bitmask_all(linux_processors[i].flags, CPUINFO_LINUX_MASK_USABLE)) {
 			const uint32_t apic_id = linux_processors[i].apic_id;
-			cpuinfo_log_debug("APID ID %: system processor %"PRIu32, apic_id, linux_processors[i].linux_id);
+			cpuinfo_log_debug("APID ID %: system processor %", apic_id, linux_processors[i].linux_id);
 
 			/* All bits of APIC ID except thread ID mask */
 			const uint32_t core_id = apic_id & core_apic_mask;
@@ -96,14 +96,14 @@ void cpuinfo_x86_linux_init(void) {
 	struct cpuinfo_core* cores = NULL;
 
 	const uint32_t max_processors_count = cpuinfo_linux_get_max_processors_count();
-	cpuinfo_log_debug("system maximum processors count: %"PRIu32, max_processors_count);
+	cpuinfo_log_debug("system maximum processors count: %", max_processors_count);
 
 	const uint32_t max_possible_processors_count = 1 +
 		cpuinfo_linux_get_max_possible_processor(max_processors_count);
-	cpuinfo_log_debug("maximum possible processors count: %"PRIu32, max_possible_processors_count);
+	cpuinfo_log_debug("maximum possible processors count: %", max_possible_processors_count);
 	const uint32_t max_present_processors_count = 1 +
 		cpuinfo_linux_get_max_present_processor(max_processors_count);
-	cpuinfo_log_debug("maximum present processors count: %"PRIu32, max_present_processors_count);
+	cpuinfo_log_debug("maximum present processors count: %", max_present_processors_count);
 
 	const uint32_t x86_linux_processors_count = min(max_possible_processors_count, max_present_processors_count);
 	x86_linux_processors = (cpuinfo_x86_linux_processor*) calloc(x86_linux_processors_count, sizeof(struct cpuinfo_x86_linux_processor));

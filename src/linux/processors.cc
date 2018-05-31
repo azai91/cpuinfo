@@ -22,20 +22,20 @@
 #define KERNEL_MAX_FILENAME "/sys/devices/system/cpu/kernel_max"
 #define KERNEL_MAX_FILESIZE 32
 #define FREQUENCY_FILENAME_SIZE (sizeof("/sys/devices/system/cpu/cpu" STRINGIFY(UINT32_MAX) "/cpufreq/cpuinfo_max_freq"))
-#define MAX_FREQUENCY_FILENAME_FORMAT "/sys/devices/system/cpu/cpu%" PRIu32 "/cpufreq/cpuinfo_max_freq"
-#define MIN_FREQUENCY_FILENAME_FORMAT "/sys/devices/system/cpu/cpu%" PRIu32 "/cpufreq/cpuinfo_min_freq"
+#define MAX_FREQUENCY_FILENAME_FORMAT "/sys/devices/system/cpu/cpu%"  "/cpufreq/cpuinfo_max_freq"
+#define MIN_FREQUENCY_FILENAME_FORMAT "/sys/devices/system/cpu/cpu%"  "/cpufreq/cpuinfo_min_freq"
 #define FREQUENCY_FILESIZE 32
 #define PACKAGE_ID_FILENAME_SIZE (sizeof("/sys/devices/system/cpu/cpu" STRINGIFY(UINT32_MAX) "/topology/physical_package_id"))
-#define PACKAGE_ID_FILENAME_FORMAT "/sys/devices/system/cpu/cpu%" PRIu32 "/topology/physical_package_id"
+#define PACKAGE_ID_FILENAME_FORMAT "/sys/devices/system/cpu/cpu%"  "/topology/physical_package_id"
 #define PACKAGE_ID_FILESIZE 32
 #define CORE_ID_FILENAME_SIZE (sizeof("/sys/devices/system/cpu/cpu" STRINGIFY(UINT32_MAX) "/topology/core_id"))
-#define CORE_ID_FILENAME_FORMAT "/sys/devices/system/cpu/cpu%" PRIu32 "/topology/core_id"
+#define CORE_ID_FILENAME_FORMAT "/sys/devices/system/cpu/cpu%"  "/topology/core_id"
 #define CORE_ID_FILESIZE 32
 
 #define CORE_SIBLINGS_FILENAME_SIZE (sizeof("/sys/devices/system/cpu/cpu" STRINGIFY(UINT32_MAX) "/topology/core_siblings_list"))
-#define CORE_SIBLINGS_FILENAME_FORMAT "/sys/devices/system/cpu/cpu%" PRIu32 "/topology/core_siblings_list"
+#define CORE_SIBLINGS_FILENAME_FORMAT "/sys/devices/system/cpu/cpu%"  "/topology/core_siblings_list"
 #define THREAD_SIBLINGS_FILENAME_SIZE (sizeof("/sys/devices/system/cpu/cpu" STRINGIFY(UINT32_MAX) "/topology/thread_siblings_list"))
-#define THREAD_SIBLINGS_FILENAME_FORMAT "/sys/devices/system/cpu/cpu%" PRIu32 "/topology/thread_siblings_list"
+#define THREAD_SIBLINGS_FILENAME_FORMAT "/sys/devices/system/cpu/cpu%"  "/topology/thread_siblings_list"
 
 #define POSSIBLE_CPULIST_FILENAME "/sys/devices/system/cpu/possible"
 #define PRESENT_CPULIST_FILENAME "/sys/devices/system/cpu/present"
@@ -103,13 +103,13 @@ uint32_t cpuinfo_linux_get_max_processors_count(void) {
 		cpuinfo_log_debug("parsed kernel_max value of % from %s", kernel_max, KERNEL_MAX_FILENAME);
 
 		if (kernel_max >= default_max_processors_count) {
-			cpuinfo_log_warning("kernel_max value of % parsed from %s exceeds platform-default limit %"PRIu32,
+			cpuinfo_log_warning("kernel_max value of % parsed from %s exceeds platform-default limit %",
 				kernel_max, KERNEL_MAX_FILENAME, default_max_processors_count - 1);
 		}
 
 		return kernel_max + 1;
 	} else {
-		cpuinfo_log_warning("using platform-default max processors count = %"PRIu32, default_max_processors_count);
+		cpuinfo_log_warning("using platform-default max processors count = %", default_max_processors_count);
 		return default_max_processors_count;
 	}
 }
@@ -119,7 +119,7 @@ uint32_t cpuinfo_linux_get_processor_max_frequency(uint32_t processor) {
 	const int chars_formatted = snprintf(
 		max_frequency_filename, FREQUENCY_FILENAME_SIZE, MAX_FREQUENCY_FILENAME_FORMAT, processor);
 	if ((unsigned int) chars_formatted >= FREQUENCY_FILENAME_SIZE) {
-		cpuinfo_log_warning("failed to format filename for max frequency of processor %"PRIu32, processor);
+		cpuinfo_log_warning("failed to format filename for max frequency of processor %", processor);
 		return 0;
 	}
 
@@ -140,7 +140,7 @@ uint32_t cpuinfo_linux_get_processor_min_frequency(uint32_t processor) {
 	const int chars_formatted = snprintf(
 		min_frequency_filename, FREQUENCY_FILENAME_SIZE, MIN_FREQUENCY_FILENAME_FORMAT, processor);
 	if ((unsigned int) chars_formatted >= FREQUENCY_FILENAME_SIZE) {
-		cpuinfo_log_warning("failed to format filename for min frequency of processor %"PRIu32, processor);
+		cpuinfo_log_warning("failed to format filename for min frequency of processor %", processor);
 		return 0;
 	}
 
@@ -165,7 +165,7 @@ bool cpuinfo_linux_get_processor_core_id(uint32_t processor, uint32_t core_id_pt
 	const int chars_formatted = snprintf(
 		core_id_filename, CORE_ID_FILENAME_SIZE, CORE_ID_FILENAME_FORMAT, processor);
 	if ((unsigned int) chars_formatted >= CORE_ID_FILENAME_SIZE) {
-		cpuinfo_log_warning("failed to format filename for core id of processor %"PRIu32, processor);
+		cpuinfo_log_warning("failed to format filename for core id of processor %", processor);
 		return 0;
 	}
 
@@ -187,7 +187,7 @@ bool cpuinfo_linux_get_processor_package_id(uint32_t processor, uint32_t package
 	const int chars_formatted = snprintf(
 		package_id_filename, PACKAGE_ID_FILENAME_SIZE, PACKAGE_ID_FILENAME_FORMAT, processor);
 	if ((unsigned int) chars_formatted >= PACKAGE_ID_FILENAME_SIZE) {
-		cpuinfo_log_warning("failed to format filename for package id of processor %"PRIu32, processor);
+		cpuinfo_log_warning("failed to format filename for package id of processor %", processor);
 		return 0;
 	}
 
