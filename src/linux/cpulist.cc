@@ -39,7 +39,7 @@ inline static bool is_whitespace(char c) {
 	}
 }
 
-inline static const char* parse_number(const char* string, const char* end, uint32_t number_ptr[static 1]) {
+inline static const char* parse_number(const char* string, const char* end, uint32_t number_ptr[1]) {
 	uint32_t number = 0;
 	while (string != end) {
 		const uint32_t digit = (uint32_t) (*string) - (uint32_t) '0';
