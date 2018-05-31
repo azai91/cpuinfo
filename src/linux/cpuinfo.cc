@@ -192,7 +192,7 @@ static bool parse_line(
 
 bool cpuinfo_x86_linux_parse_proc_cpuinfo(
 	uint32_t max_processors_count,
-	struct cpuinfo_x86_linux_processor processors[max_processors_count])
+	struct cpuinfo_x86_linux_processor processors[static max_processors_count])
 {
 	struct proc_cpuinfo_parser_state state = {
 		.processor_index = 0,
