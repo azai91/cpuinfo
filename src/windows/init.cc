@@ -7,6 +7,9 @@
 #include "../api.h"
 #include "./api.h"
 #include "../log.h"
+#include <malloc.h>
+
+#define alloca _alloca
 
 #include <windows.h>
 
@@ -45,8 +48,8 @@ BOOL CALLBACK cpuinfo_x86_windows_init(PINIT_ONCE init_once, PVOID parameter, PV
 	struct cpuinfo_x86_processor x86_processor;
 	ZeroMemory(&x86_processor, sizeof(x86_processor));
 	cpuinfo_x86_init_processor(&x86_processor);
-	char brand_string[48];
-	cpuinfo_x86_normalize_brand_string(x86_processor.brand_string, brand_string);
+//	char brand_string[48];
+//	cpuinfo_x86_normalize_brand_string(x86_processor.brand_string, brand_string);
 
 //	const uint32_t thread_bits_mask = bit_mask(x86_processor.topology.thread_bits_length);
 //	const uint32_t core_bits_mask   = bit_mask(x86_processor.topology.core_bits_length);
@@ -74,7 +77,7 @@ BOOL CALLBACK cpuinfo_x86_windows_init(PINIT_ONCE init_once, PVOID parameter, PV
 		count += processors_per_group[i];
 	}
 
-	processors = HeapAlloc(heap, HEAP_ZERO_MEMORY, processors_count * sizeof(struct cpuinfo_processor));
+	processors = (cpuinfo_processor*) HeapAlloc(heap, HEAP_ZERO_MEMORY, processors_count * sizeof(struct cpuinfo_processor));
 	if (processors == NULL) {
 		cpuinfo_log_error("failed to allocate %zu bytes for descriptions of % logical processors",
 			processors_count * sizeof(struct cpuinfo_processor), processors_count);
@@ -103,7 +106,7 @@ BOOL CALLBACK cpuinfo_x86_windows_init(PINIT_ONCE init_once, PVOID parameter, PV
 
 	DWORD max_info_size = max(cores_info_size, packages_info_size);
 
-	processor_infos = HeapAlloc(heap, 0, max_info_size);
+	processor_infos = (PSYSTEM_LOGICAL_PROCESSOR_INFORMATION_EX*) HeapAlloc(heap, 0, max_info_size);
 	if (processor_infos == NULL) {
 		cpuinfo_log_error("failed to allocate % bytes for logical processor information",
 			(uint32_t) max_info_size);
