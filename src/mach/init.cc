@@ -18,17 +18,17 @@ static inline uint32_t bit_mask(uint32_t bits) {
 void cpuinfo_x86_mach_init(void) {
 
 	struct cpuinfo_mach_topology mach_topology = cpuinfo_mach_detect_topology();
-  struct cpuinfo_core* cores = new cpuinfo_core[mach_topology.cores]();
-	if (cores == NULL) {
-		cpuinfo_log_error("failed to allocate %zu bytes for descriptions of %"PRIu32" cores",
-			mach_topology.cores * sizeof(struct cpuinfo_core), mach_topology.cores);
-		goto cleanup;
-	}
+//  struct cpuinfo_core* cores = new cpuinfo_core[mach_topology.cores]();
+//	if (cores == NULL) {
+//		cpuinfo_log_error("failed to allocate %zu bytes for descriptions of %"PRIu32" cores",
+//			mach_topology.cores * sizeof(struct cpuinfo_core), mach_topology.cores);
+//		goto cleanup;
+//	}
 	cpuinfo_cores_count = mach_topology.cores;
 	__sync_synchronize();
 	cpuinfo_is_initialized = true;
-	cores = NULL;
+//	cores = NULL;
 
-cleanup:
-	free(cores);
+//cleanup:
+//	free(cores);
 }
