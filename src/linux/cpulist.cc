@@ -201,14 +201,10 @@ bool cpuinfo_linux_parse_cpulist(const char* filename, cpuinfo_cpulist_callback 
 		}
 	} while (bytes_read != 0);
 
-cleanup:
-	if (file != -1) {
-#if CPUINFO_MOCK
-		cpuinfo_mock_close(file);
-#else
-		close(file);
-#endif
-		file = -1;
-	}
+	cleanup:
+		if (file != -1) {
+			close(file);
+			file = -1;
+		}
 	return status;
 }
