@@ -70,9 +70,6 @@ inline static bool parse_entry(const char* entry_start, const char* entry_end, c
 		return false;
 	}
 
-	#if CPUINFO_LOG_DEBUG_PARSERS
-		cpuinfo_log_debug("parse cpu list entry \"%.*s\" (%zu chars)", (int) entry_length, entry_start, entry_length);
-	#endif
 	uint32_t first_cpu, last_cpu;
 
 	const char* number_end = parse_number(entry_start, entry_end, &first_cpu);
@@ -83,10 +80,6 @@ inline static bool parse_entry(const char* entry_start, const char* entry_end, c
 		return false;
 	} else if (number_end == entry_end) {
 		/* Completely parsed the entry */
-		#if CPUINFO_LOG_DEBUG_PARSERS
-			cpuinfo_log_debug("cpulist: call callback with list_start = %, list_end = %",
-				first_cpu, first_cpu + 1);
-		#endif
 		return callback(first_cpu, first_cpu + 1, context);
 	}
 
@@ -119,10 +112,6 @@ inline static bool parse_entry(const char* entry_start, const char* entry_end, c
 	}
 
 	/* Parsed both parts of the entry; update CPU set */
-	#if CPUINFO_LOG_DEBUG_PARSERS
-		cpuinfo_log_debug("cpulist: call callback with list_start = %, list_end = %",
-			first_cpu, last_cpu + 1);
-	#endif
 	return callback(first_cpu, last_cpu + 1, context);
 }
 
@@ -130,9 +119,6 @@ bool cpuinfo_linux_parse_cpulist(const char* filename, cpuinfo_cpulist_callback 
 	bool status = true;
 	int file = -1;
 	char buffer[BUFFER_SIZE];
-	#if CPUINFO_LOG_DEBUG_PARSERS
-		cpuinfo_log_debug("parsing cpu list from file %s", filename);
-  #endif
 
 	size_t position = 0;
 	const char* buffer_end = &buffer[BUFFER_SIZE];
