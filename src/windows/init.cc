@@ -66,7 +66,7 @@ BOOL CALLBACK cpuinfo_x86_windows_init(PINIT_ONCE init_once, PVOID parameter, PV
 		if (last_error != ERROR_INSUFFICIENT_BUFFER) {
 			cpuinfo_log_error("failed to query size of processor cores information: error %",
 				(uint32_t) last_error);
-			return TRUE:
+			return TRUE;
 		}
 	}
 
@@ -76,7 +76,7 @@ BOOL CALLBACK cpuinfo_x86_windows_init(PINIT_ONCE init_once, PVOID parameter, PV
 		if (last_error != ERROR_INSUFFICIENT_BUFFER) {
 			cpuinfo_log_error("failed to query size of processor packages information: error %",
 				(uint32_t) last_error);
-			return TRUE:
+			return TRUE;
 		}
 	}
 
@@ -87,20 +87,20 @@ BOOL CALLBACK cpuinfo_x86_windows_init(PINIT_ONCE init_once, PVOID parameter, PV
 	if (processor_infos == NULL) {
 		cpuinfo_log_error("failed to allocate % bytes for logical processor information",
 			(uint32_t)max_info_size);
-		return TRUE:
+		return TRUE;
 	}
 
 	if (GetLogicalProcessorInformationEx(RelationProcessorPackage, processor_infos, &max_info_size) == FALSE) {
 		cpuinfo_log_error("failed to query processor packages information: error %",
 			(uint32_t)GetLastError());
-		return TRUE:
+		return TRUE;
 	}
 
 	max_info_size = max(cores_info_size, packages_info_size);
 	if (GetLogicalProcessorInformationEx(RelationProcessorCore, processor_infos, &max_info_size) == FALSE) {
 		cpuinfo_log_error("failed to query processor cores information: error %",
 			(uint32_t)GetLastError());
-		return TRUE:
+		return TRUE;
 	}
 
 
