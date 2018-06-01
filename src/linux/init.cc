@@ -1,5 +1,3 @@
-#if defined(__linux__)
-
 #include <stdint.h>
 #include <stddef.h>
 #include <stdlib.h>
@@ -48,14 +46,10 @@ static void cpuinfo_x86_count_objects(
 	uint32_t linux_processors_count,
 	const cpuinfo_x86_linux_processor* linux_processors,
 	const struct cpuinfo_x86_processor processor[1],
-	uint32_t cores_count_ptr[1],
-	uint32_t clusters_count_ptr[1])
+	uint32_t cores_count_ptr[1])
 {
-	const uint32_t core_apic_mask =
-		~(bit_mask(processor->topology.thread_bits_length) << processor->topology.thread_bits_offset);
-		core_apic_mask & ~(bit_mask(processor->topology.core_bits_length) << processor->topology.core_bits_offset);
 
-	uint32_t cores_count = 0, clusters_count = 0;
+	uint32_t cores_count = 0;
 	uint32_t last_core_id = UINT32_MAX;
 	for (uint32_t i = 0; i < linux_processors_count; i++) {
 		if (bitmask_all(linux_processors[i].flags, CPUINFO_LINUX_MASK_USABLE)) {
@@ -63,7 +57,7 @@ static void cpuinfo_x86_count_objects(
 			cpuinfo_log_debug("APID ID %: system processor %", apic_id, linux_processors[i].linux_id);
 
 			/* All bits of APIC ID except thread ID mask */
-			const uint32_t core_id = apic_id & core_apic_mask;
+			const uint32_t core_id = apic_id;
 			if (core_id != last_core_id) {
 				last_core_id = core_id;
 				cores_count++;
@@ -71,7 +65,6 @@ static void cpuinfo_x86_count_objects(
 		}
 	}
 	*cores_count_ptr = cores_count;
-	*clusters_count_ptr = clusters_count;
 }
 
 void cpuinfo_x86_linux_init(void) {
@@ -120,9 +113,9 @@ void cpuinfo_x86_linux_init(void) {
 	qsort(x86_linux_processors, x86_linux_processors_count, sizeof(struct cpuinfo_x86_linux_processor),
 		cmp_x86_linux_processor);
 
-	uint32_t clusters_count = 0, cores_count = 0;
+	uint32_t cores_count = 0;
 	cpuinfo_x86_count_objects(x86_linux_processors_count, x86_linux_processors, &x86_processor,
-		&cores_count, &clusters_count);
+		&cores_count);
 
 	cpuinfo_log_debug("detected % cores", cores_count);
 
@@ -133,5 +126,3 @@ void cpuinfo_x86_linux_init(void) {
 	cpuinfo_is_initialized = true;
 
 }
-
-#endif

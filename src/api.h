@@ -18,17 +18,16 @@ struct cpuid_regs {
 };
 
 
-struct cpuinfo_x86_topology {
-	uint32_t apic_id;
-	uint32_t thread_bits_offset;
-	uint32_t thread_bits_length;
-	uint32_t core_bits_offset;
-	uint32_t core_bits_length;
-};
+//struct cpuinfo_x86_topology {
+//	uint32_t apic_id;
+//	uint32_t thread_bits_offset;
+//	uint32_t thread_bits_length;
+//	uint32_t core_bits_offset;
+//	uint32_t core_bits_length;
+//};
 
 struct cpuinfo_x86_processor {
 	uint32_t cpuid;
-	struct cpuinfo_x86_topology topology;
 };
 
 void cpuinfo_x86_init_processor(struct cpuinfo_x86_processor* processor);
