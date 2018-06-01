@@ -114,95 +114,70 @@ uint32_t cpuinfo_linux_get_max_processors_count(void) {
 	}
 }
 
-uint32_t cpuinfo_linux_get_processor_max_frequency(uint32_t processor) {
-	char max_frequency_filename[FREQUENCY_FILENAME_SIZE];
-	const int chars_formatted = snprintf(
-		max_frequency_filename, FREQUENCY_FILENAME_SIZE, MAX_FREQUENCY_FILENAME_FORMAT, processor);
-	if ((unsigned int) chars_formatted >= FREQUENCY_FILENAME_SIZE) {
-		cpuinfo_log_warning("failed to format filename for max frequency of processor %", processor);
-		return 0;
-	}
+//uint32_t cpuinfo_linux_get_processor_max_frequency(uint32_t processor) {
+//	char max_frequency_filename[FREQUENCY_FILENAME_SIZE];
+//	const int chars_formatted = snprintf(
+//		max_frequency_filename, FREQUENCY_FILENAME_SIZE, MAX_FREQUENCY_FILENAME_FORMAT, processor);
+//	if ((unsigned int) chars_formatted >= FREQUENCY_FILENAME_SIZE) {
+//		cpuinfo_log_warning("failed to format filename for max frequency of processor %", processor);
+//		return 0;
+//	}
+//
+//	uint32_t max_frequency;
+//	if (cpuinfo_linux_parse_small_file(max_frequency_filename, FREQUENCY_FILESIZE, uint32_parser, &max_frequency)) {
+//		cpuinfo_log_debug("parsed max frequency value of % KHz for logical processor % from %s",
+//			max_frequency, processor, max_frequency_filename);
+//		return max_frequency;
+//	} else {
+//		cpuinfo_log_warning("failed to parse max frequency for processor % from %s",
+//			processor, max_frequency_filename);
+//		return 0;
+//	}
+//}
 
-	uint32_t max_frequency;
-	if (cpuinfo_linux_parse_small_file(max_frequency_filename, FREQUENCY_FILESIZE, uint32_parser, &max_frequency)) {
-		cpuinfo_log_debug("parsed max frequency value of % KHz for logical processor % from %s",
-			max_frequency, processor, max_frequency_filename);
-		return max_frequency;
-	} else {
-		cpuinfo_log_warning("failed to parse max frequency for processor % from %s",
-			processor, max_frequency_filename);
-		return 0;
-	}
-}
+//bool cpuinfo_linux_get_processor_core_id(uint32_t processor, uint32_t core_id_ptr[1]) {
+//	char core_id_filename[PACKAGE_ID_FILENAME_SIZE];
+//	const int chars_formatted = snprintf(
+//		core_id_filename, CORE_ID_FILENAME_SIZE, CORE_ID_FILENAME_FORMAT, processor);
+//	if ((unsigned int) chars_formatted >= CORE_ID_FILENAME_SIZE) {
+//		cpuinfo_log_warning("failed to format filename for core id of processor %", processor);
+//		return 0;
+//	}
+//
+//	uint32_t core_id;
+//	if (cpuinfo_linux_parse_small_file(core_id_filename, CORE_ID_FILESIZE, uint32_parser, &core_id)) {
+//		cpuinfo_log_debug("parsed core id value of % for logical processor % from %s",
+//			core_id, processor, core_id_filename);
+//		*core_id_ptr = core_id;
+//		return true;
+//	} else {
+//		cpuinfo_log_info("failed to parse core id for processor % from %s",
+//			processor, core_id_filename);
+//		return false;
+//	}
+//}
 
-uint32_t cpuinfo_linux_get_processor_min_frequency(uint32_t processor) {
-	char min_frequency_filename[FREQUENCY_FILENAME_SIZE];
-	const int chars_formatted = snprintf(
-		min_frequency_filename, FREQUENCY_FILENAME_SIZE, MIN_FREQUENCY_FILENAME_FORMAT, processor);
-	if ((unsigned int) chars_formatted >= FREQUENCY_FILENAME_SIZE) {
-		cpuinfo_log_warning("failed to format filename for min frequency of processor %", processor);
-		return 0;
-	}
-
-	uint32_t min_frequency;
-	if (cpuinfo_linux_parse_small_file(min_frequency_filename, FREQUENCY_FILESIZE, uint32_parser, &min_frequency)) {
-		cpuinfo_log_debug("parsed min frequency value of % KHz for logical processor % from %s",
-			min_frequency, processor, min_frequency_filename);
-		return min_frequency;
-	} else {
-		/*
-		 * This error is less severe than parsing max frequency, because min frequency is only useful for clustering,
-		 * while max frequency is also needed for peak FLOPS calculation.
-		 */
-		cpuinfo_log_info("failed to parse min frequency for processor % from %s",
-			processor, min_frequency_filename);
-		return 0;
-	}
-}
-
-bool cpuinfo_linux_get_processor_core_id(uint32_t processor, uint32_t core_id_ptr[1]) {
-	char core_id_filename[PACKAGE_ID_FILENAME_SIZE];
-	const int chars_formatted = snprintf(
-		core_id_filename, CORE_ID_FILENAME_SIZE, CORE_ID_FILENAME_FORMAT, processor);
-	if ((unsigned int) chars_formatted >= CORE_ID_FILENAME_SIZE) {
-		cpuinfo_log_warning("failed to format filename for core id of processor %", processor);
-		return 0;
-	}
-
-	uint32_t core_id;
-	if (cpuinfo_linux_parse_small_file(core_id_filename, CORE_ID_FILESIZE, uint32_parser, &core_id)) {
-		cpuinfo_log_debug("parsed core id value of % for logical processor % from %s",
-			core_id, processor, core_id_filename);
-		*core_id_ptr = core_id;
-		return true;
-	} else {
-		cpuinfo_log_info("failed to parse core id for processor % from %s",
-			processor, core_id_filename);
-		return false;
-	}
-}
-
-bool cpuinfo_linux_get_processor_package_id(uint32_t processor, uint32_t package_id_ptr[1]) {
-	char package_id_filename[PACKAGE_ID_FILENAME_SIZE];
-	const int chars_formatted = snprintf(
-		package_id_filename, PACKAGE_ID_FILENAME_SIZE, PACKAGE_ID_FILENAME_FORMAT, processor);
-	if ((unsigned int) chars_formatted >= PACKAGE_ID_FILENAME_SIZE) {
-		cpuinfo_log_warning("failed to format filename for package id of processor %", processor);
-		return 0;
-	}
-
-	uint32_t package_id;
-	if (cpuinfo_linux_parse_small_file(package_id_filename, PACKAGE_ID_FILESIZE, uint32_parser, &package_id)) {
-		cpuinfo_log_debug("parsed package id value of % for logical processor % from %s",
-			package_id, processor, package_id_filename);
-		*package_id_ptr = package_id;
-		return true;
-	} else {
-		cpuinfo_log_info("failed to parse package id for processor % from %s",
-			processor, package_id_filename);
-		return false;
-	}
-}
+//bool cpuinfo_linux_get_processor_package_id(uint32_t processor, uint32_t package_id_ptr[1]) {
+//	char package_id_filename[PACKAGE_ID_FILENAME_SIZE];
+//	const int chars_formatted = snprintf(
+//		package_id_filename, PACKAGE_ID_FILENAME_SIZE, PACKAGE_ID_FILENAME_FORMAT, processor);
+//	if ((unsigned int) chars_formatted >= PACKAGE_ID_FILENAME_SIZE) {
+//		cpuinfo_log_warning("failed to format filename for package id of processor %", processor);
+//		return 0;
+//	}
+//
+//	uint32_t package_id;
+//	if (cpuinfo_linux_parse_small_file(package_id_filename, PACKAGE_ID_FILESIZE, uint32_parser, &package_id)) {
+//		cpuinfo_log_debug("parsed package id value of % for logical processor % from %s",
+//			package_id, processor, package_id_filename);
+//		*package_id_ptr = package_id;
+//		return true;
+//	} else {
+//		cpuinfo_log_info("failed to parse package id for processor % from %s",
+//			processor, package_id_filename);
+//		return false;
+//	}
+//}
 
 static bool max_processor_number_parser(uint32_t processor_list_start, uint32_t processor_list_end, void* context) {
 	uint32_t* processor_number_ptr = (uint32_t*) context;
