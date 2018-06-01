@@ -1,3 +1,5 @@
+#if defined(__linux__)
+
 #include <stdbool.h>
 #include <stdint.h>
 #include <stdlib.h>
@@ -185,3 +187,5 @@ bool cpuinfo_linux_parse_cpulist(const char* filename, cpuinfo_cpulist_callback 
 		}
 	return status;
 }
+
+#endif

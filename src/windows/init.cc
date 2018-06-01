@@ -1,3 +1,5 @@
+#ifdef _WIN32
+
 #include <stdint.h>
 #include <stddef.h>
 #include <stdlib.h>
@@ -133,3 +135,5 @@ BOOL CALLBACK cpuinfo_x86_windows_init(PINIT_ONCE init_once, PVOID parameter, PV
 
 	return TRUE;
 }
+
+#endif

@@ -1,3 +1,5 @@
+#if defined(__linux__)
+
 #pragma once
 
 #define CPUINFO_LINUX_FLAG_PRESENT            UINT32_C(0x00000001)
@@ -50,3 +52,5 @@ typedef bool (*cpuinfo_siblings_callback)(uint32_t, uint32_t, uint32_t, void*);
 
 extern const struct cpuinfo_processor** cpuinfo_linux_cpu_to_processor_map;
 extern const struct cpuinfo_core** cpuinfo_linux_cpu_to_core_map;
+
+#endif

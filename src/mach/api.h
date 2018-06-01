@@ -1,3 +1,5 @@
+#if defined(__MACH__) && defined(__APPLE__)
+
 #pragma once
 
 #include <stdint.h>
@@ -11,3 +13,5 @@ struct cpuinfo_mach_topology {
 
 
 struct cpuinfo_mach_topology cpuinfo_mach_detect_topology(void);
+
+#endif

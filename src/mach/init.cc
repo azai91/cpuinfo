@@ -1,3 +1,5 @@
+#if defined(__MACH__) && defined(__APPLE__)
+
 #include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
@@ -22,3 +24,5 @@ void cpuinfo_x86_mach_init(void) {
 	cpuinfo_is_initialized = true;
 
 }
+
+#endif

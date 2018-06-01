@@ -1,3 +1,5 @@
+#if defined(__linux__)
+
 #define _GNU_SOURCE 1
 #include <stdbool.h>
 #include <stdint.h>
@@ -5,38 +7,12 @@
 #include <stdio.h>
 #include <string.h>
 
-#if !defined(__ANDROID__)
-	/*
-	 * sched.h is only used for CPU_SETSIZE constant.
-	 * Android NDK headers before platform 21 do have this constant in sched.h
-	 */
-	#include <sched.h>
-#endif
-
+#include <sched.h>
 #include "./api.h"
 #include "../log.h"
 
-
-#define STRINGIFY(token) #token
-
 #define KERNEL_MAX_FILENAME "/sys/devices/system/cpu/kernel_max"
 #define KERNEL_MAX_FILESIZE 32
-#define FREQUENCY_FILENAME_SIZE (sizeof("/sys/devices/system/cpu/cpu" STRINGIFY(UINT32_MAX) "/cpufreq/cpuinfo_max_freq"))
-#define MAX_FREQUENCY_FILENAME_FORMAT "/sys/devices/system/cpu/cpu%"  "/cpufreq/cpuinfo_max_freq"
-#define MIN_FREQUENCY_FILENAME_FORMAT "/sys/devices/system/cpu/cpu%"  "/cpufreq/cpuinfo_min_freq"
-#define FREQUENCY_FILESIZE 32
-#define PACKAGE_ID_FILENAME_SIZE (sizeof("/sys/devices/system/cpu/cpu" STRINGIFY(UINT32_MAX) "/topology/physical_package_id"))
-#define PACKAGE_ID_FILENAME_FORMAT "/sys/devices/system/cpu/cpu%"  "/topology/physical_package_id"
-#define PACKAGE_ID_FILESIZE 32
-#define CORE_ID_FILENAME_SIZE (sizeof("/sys/devices/system/cpu/cpu" STRINGIFY(UINT32_MAX) "/topology/core_id"))
-#define CORE_ID_FILENAME_FORMAT "/sys/devices/system/cpu/cpu%"  "/topology/core_id"
-#define CORE_ID_FILESIZE 32
-
-#define CORE_SIBLINGS_FILENAME_SIZE (sizeof("/sys/devices/system/cpu/cpu" STRINGIFY(UINT32_MAX) "/topology/core_siblings_list"))
-#define CORE_SIBLINGS_FILENAME_FORMAT "/sys/devices/system/cpu/cpu%"  "/topology/core_siblings_list"
-#define THREAD_SIBLINGS_FILENAME_SIZE (sizeof("/sys/devices/system/cpu/cpu" STRINGIFY(UINT32_MAX) "/topology/thread_siblings_list"))
-#define THREAD_SIBLINGS_FILENAME_FORMAT "/sys/devices/system/cpu/cpu%"  "/topology/thread_siblings_list"
-
 #define POSSIBLE_CPULIST_FILENAME "/sys/devices/system/cpu/possible"
 #define PRESENT_CPULIST_FILENAME "/sys/devices/system/cpu/present"
 
@@ -208,4 +184,6 @@ bool cpuinfo_linux_detect_present_processors(uint32_t max_processors_count,
 		return false;
 	}
 }
+
+#endif
 

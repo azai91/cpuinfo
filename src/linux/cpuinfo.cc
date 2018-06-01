@@ -1,3 +1,5 @@
+#if defined(__linux__)
+
 #include <stdbool.h>
 #include <stdint.h>
 #include <stdlib.h>
@@ -202,3 +204,5 @@ bool cpuinfo_x86_linux_parse_proc_cpuinfo(
 	return cpuinfo_linux_parse_multiline_file("/proc/cpuinfo", BUFFER_SIZE,
 		(cpuinfo_line_callback) parse_line, &state);
 }
+
+#endif

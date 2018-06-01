@@ -1,3 +1,5 @@
+#if defined(__linux__)
+
 #include <stdint.h>
 #include <stddef.h>
 #include <stdlib.h>
@@ -131,3 +133,5 @@ void cpuinfo_x86_linux_init(void) {
 	cpuinfo_is_initialized = true;
 
 }
+
+#endif

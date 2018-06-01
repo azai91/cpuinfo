@@ -1,3 +1,5 @@
+#if defined(__linux__)
+
 #include <stdbool.h>
 #include <stdint.h>
 #include <stdlib.h>
@@ -49,3 +51,5 @@ cleanup:
 	}
 	return status;
 }
+
+#endif
