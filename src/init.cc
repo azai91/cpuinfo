@@ -61,7 +61,7 @@ void cpuinfo_x86_init_processor(struct cpuinfo_x86_processor* processor) {
 		const struct cpuid_regs leaf1 = cpuid(1);
 		processor->cpuid = leaf1.eax;
 
-		cpuinfo_x86_detect_topology(max_base_index, max_extended_index, leaf1, &processor->topology);
+//		cpuinfo_x86_detect_topology(max_base_index, max_extended_index, leaf1, &processor->topology);
 
 	}
 }
