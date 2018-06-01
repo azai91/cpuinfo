@@ -46,28 +46,15 @@ static void cpuinfo_x86_count_objects(
 	uint32_t linux_processors_count,
 	const cpuinfo_x86_linux_processor* linux_processors,
 	const struct cpuinfo_x86_processor processor[1],
-	uint32_t llc_apic_bits,
 	uint32_t cores_count_ptr[1],
-	uint32_t clusters_count_ptr[1],
-	uint32_t packages_count_ptr[1],
-	uint32_t l1i_count_ptr[1],
-	uint32_t l1d_count_ptr[1],
-	uint32_t l2_count_ptr[1],
-	uint32_t l3_count_ptr[1],
-	uint32_t l4_count_ptr[1])
+	uint32_t clusters_count_ptr[1])
 {
 	const uint32_t core_apic_mask =
 		~(bit_mask(processor->topology.thread_bits_length) << processor->topology.thread_bits_offset);
-	const uint32_t package_apic_mask =
 		core_apic_mask & ~(bit_mask(processor->topology.core_bits_length) << processor->topology.core_bits_offset);
-	const uint32_t llc_apic_mask = ~bit_mask(llc_apic_bits);
-	const uint32_t cluster_apic_mask = package_apic_mask | llc_apic_mask;
 
-	uint32_t cores_count = 0, clusters_count = 0, packages_count = 0;
-	uint32_t l1i_count = 0, l1d_count = 0, l2_count = 0, l3_count = 0, l4_count = 0;
-	uint32_t last_core_id = UINT32_MAX, last_cluster_id = UINT32_MAX, last_package_id = UINT32_MAX;
-	uint32_t last_l1i_id = UINT32_MAX, last_l1d_id = UINT32_MAX;
-	uint32_t last_l2_id = UINT32_MAX, last_l3_id = UINT32_MAX, last_l4_id = UINT32_MAX;
+	uint32_t cores_count = 0, clusters_count = 0;
+	uint32_t last_core_id = UINT32_MAX;
 	for (uint32_t i = 0; i < linux_processors_count; i++) {
 		if (bitmask_all(linux_processors[i].flags, CPUINFO_LINUX_MASK_USABLE)) {
 			const uint32_t apic_id = linux_processors[i].apic_id;
@@ -83,12 +70,6 @@ static void cpuinfo_x86_count_objects(
 	}
 	*cores_count_ptr = cores_count;
 	*clusters_count_ptr = clusters_count;
-	*packages_count_ptr = packages_count;
-	*l1i_count_ptr = l1i_count;
-	*l1d_count_ptr = l1d_count;
-	*l2_count_ptr  = l2_count;
-	*l3_count_ptr  = l3_count;
-	*l4_count_ptr  = l4_count;
 }
 
 void cpuinfo_x86_linux_init(void) {
@@ -133,16 +114,13 @@ void cpuinfo_x86_linux_init(void) {
 	struct cpuinfo_x86_processor x86_processor;
 	memset(&x86_processor, 0, sizeof(x86_processor));
 	cpuinfo_x86_init_processor(&x86_processor);
-	char brand_string[48];
 
 	qsort(x86_linux_processors, x86_linux_processors_count, sizeof(struct cpuinfo_x86_linux_processor),
 		cmp_x86_linux_processor);
 
-	uint32_t llc_apic_bits = 0;
-	uint32_t packages_count = 0, clusters_count = 0, cores_count = 0;
-	uint32_t l1i_count = 0, l1d_count = 0, l2_count = 0, l3_count = 0, l4_count = 0;
-	cpuinfo_x86_count_objects(x86_linux_processors_count, x86_linux_processors, &x86_processor, llc_apic_bits,
-		&cores_count, &clusters_count, &packages_count, &l1i_count, &l1d_count, &l2_count, &l3_count, &l4_count);
+	uint32_t clusters_count = 0, cores_count = 0;
+	cpuinfo_x86_count_objects(x86_linux_processors_count, x86_linux_processors, &x86_processor,
+		&cores_count, &clusters_count);
 
 	cpuinfo_log_debug("detected % cores", cores_count);
 
@@ -152,6 +130,4 @@ void cpuinfo_x86_linux_init(void) {
 
 	cpuinfo_is_initialized = true;
 
-cleanup:
-	free(cores);
 }
