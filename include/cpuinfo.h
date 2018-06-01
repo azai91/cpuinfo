@@ -2,10 +2,6 @@
 #ifndef CPUINFO_H
 #define CPUINFO_H
 
-#ifndef __cplusplus
-	#include <stdbool.h>
-#endif
-
 #ifdef __APPLE__
 	#include <TargetConditionals.h>
 #endif
@@ -22,25 +18,6 @@
 	#define CPUINFO_ARCH_X86_64 1
 #endif
 
-#if defined(__arm__) || defined(_M_ARM)
-	#define CPUINFO_ARCH_ARM 1
-#endif
-
-#if defined(__aarch64__) || defined(_M_ARM64)
-	#define CPUINFO_ARCH_ARM64 1
-#endif
-
-#if defined(__PPC64__) || defined(__powerpc64__) || defined(_ARCH_PPC64)
-	#define CPUINFO_ARCH_PPC64 1
-#endif
-
-#if defined(__pnacl__)
-	#define CPUINFO_ARCH_PNACL 1
-#endif
-
-#if defined(EMSCRIPTEN)
-	#define CPUINFO_ARCH_ASMJS 1
-#endif
 
 #if CPUINFO_ARCH_X86 && defined(_MSC_VER)
 	#define CPUINFO_ABI __cdecl
@@ -58,26 +35,6 @@
 
 #ifndef CPUINFO_ARCH_X86_64
 	#define CPUINFO_ARCH_X86_64 0
-#endif
-
-#ifndef CPUINFO_ARCH_ARM
-	#define CPUINFO_ARCH_ARM 0
-#endif
-
-#ifndef CPUINFO_ARCH_ARM64
-	#define CPUINFO_ARCH_ARM64 0
-#endif
-
-#ifndef CPUINFO_ARCH_PPC64
-	#define CPUINFO_ARCH_PPC64 0
-#endif
-
-#ifndef CPUINFO_ARCH_PNACL
-	#define CPUINFO_ARCH_PNACL 0
-#endif
-
-#ifndef CPUINFO_ARCH_ASMJS
-	#define CPUINFO_ARCH_ASMJS 0
 #endif
 
 #define CPUINFO_CACHE_UNIFIED          0x00000001
