@@ -37,21 +37,7 @@
 	#define CPUINFO_ARCH_X86_64 0
 #endif
 
-#define CPUINFO_CACHE_UNIFIED          0x00000001
-#define CPUINFO_CACHE_INCLUSIVE        0x00000002
-#define CPUINFO_CACHE_COMPLEX_INDEXING 0x00000004
-
-#define CPUINFO_PAGE_SIZE_4KB  0x1000
-#define CPUINFO_PAGE_SIZE_1MB  0x100000
-#define CPUINFO_PAGE_SIZE_2MB  0x200000
-#define CPUINFO_PAGE_SIZE_4MB  0x400000
-#define CPUINFO_PAGE_SIZE_16MB 0x1000000
-#define CPUINFO_PAGE_SIZE_1GB  0x40000000
-
-
 bool CPUINFO_ABI cpuinfo_initialize(void);
-
-void CPUINFO_ABI cpuinfo_deinitialize(void);
 
 uint32_t CPUINFO_ABI cpuinfo_get_cores_count(void);
 
